@@ -1,0 +1,22 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		
+		DECLARE	HTML	CHARACTER '<!DOCTYPE html><html manifest="demo_html.appcache"><body><h1>Control de version BUS</h1><p><b>Autor: </b>@Autor@<br><b>Version: </b>@Version@<br><b>Cambio: </b>@Fecha@ @Cambio@<br></p></body></html>';
+		DECLARE	brk		CHARACTER Family;
+	
+		SET HTML = REPLACE(HTML,'@Version@',Version);
+		SET HTML = REPLACE(HTML,'@Autor@',Autor);
+		SET HTML = REPLACE(HTML,'@Cambio@',Cambio);
+		SET HTML = REPLACE(HTML,'@Fecha@',Fecha);
+		
+		DECLARE encoded CHARACTER BASE64ENCODE(HTML);
+		DECLARE decoded BLOB BASE64DECODE(encoded);
+		SET OutputRoot.BLOB.BLOB = decoded;
+		
+	END;

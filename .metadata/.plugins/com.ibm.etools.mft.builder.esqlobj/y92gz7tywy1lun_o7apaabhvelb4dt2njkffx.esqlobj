@@ -1,0 +1,35 @@
+CREATE PROCEDURE CodigosMensajesCASE(IN codigo CHARACTER, IN Mensajes REFERENCE) BEGIN
+		CASE codigo
+		WHEN 'opExito' THEN
+			SET Mensajes.mensaje.codigo = 1001;
+			SET Mensajes.mensaje.descripcion = 'Operación exitosa.';
+		WHEN 'sinRegistros' THEN
+			SET Mensajes.mensaje.codigo = 1002;
+			SET Mensajes.mensaje.descripcion = 'No se encontraron registros.';
+		WHEN 'envExito' THEN
+			SET Mensajes.mensaje.codigo = 1003;
+			SET Mensajes.mensaje.descripcion = 'Envío de correo exitoso.';
+		WHEN 'iniSubetapa' THEN
+			SET Mensajes.mensaje.codigo = 1004;
+			SET Mensajes.mensaje.descripcion = 'La Subetapa solicitada se ha iniciado.';
+		WHEN 'iniDepura' THEN
+			SET Mensajes.mensaje.codigo = 1007;
+			SET Mensajes.mensaje.descripcion = 'La depuración de los datos temporales del procesamiento se ha iniciado.';	
+		WHEN 'noIdNotif' THEN
+			SET Mensajes.mensaje.codigo = 1009;
+			SET Mensajes.mensaje.descripcion = 'No se encontró el id de Notificación.';	
+		WHEN 'noRegistr' THEN
+			SET Mensajes.mensaje.codigo = 1010;
+			SET Mensajes.mensaje.descripcion = 'El archivo no se encuentra en estado registrado y no se le puede asignar un folio.';	
+		WHEN 'noArchivo' THEN
+			SET Mensajes.mensaje.codigo = 1011;
+			SET Mensajes.mensaje.descripcion = 'El archivo que deseas procesar no fue encontrado por lo que el folio no se generó.';
+		WHEN 'sumaErroneaImportes' THEN
+			SET Mensajes.mensaje.codigo = 1012;
+			SET Mensajes.mensaje.descripcion = 'Los importes no coinciden';
+		WHEN 'noConvive' THEN
+			SET Mensajes.mensaje.codigo = 1013;
+			SET Mensajes.mensaje.descripcion = 'No hay convivencia';
+		END CASE;
+
+END;

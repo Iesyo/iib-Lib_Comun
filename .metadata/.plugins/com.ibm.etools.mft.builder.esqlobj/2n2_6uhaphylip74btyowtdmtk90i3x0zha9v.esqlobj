@@ -1,0 +1,13 @@
+CREATE COMPUTE MODULE HandleErrorRestToXml
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE inCCSID INT InputProperties.CodedCharSetId; 
+		DECLARE inEncoding INT InputProperties.Encoding; 
+		--DECLARE inBitStream BLOB ASBITSTREAM(InputRoot.BLOB, inEncoding, inCCSID); 
+		--CREATE LASTCHILD OF OutputRoot DOMAIN('XMLNSC') PARSE(inBitStream, inEncoding, inCCSID,'BLOB', 'XMLNSC');
+		DECLARE mensajeString CHAR CAST(InputRoot.BLOB.BLOB as char CCSID 1208 Encoding 815); 
+		SET Environment.blobToJson = mensajeString;
+		CREATE LASTCHILD OF Environment.certif.consultarReferenciasBancos.error DOMAIN('XMLNSC') PARSE(Environment.blobToJson, inEncoding, inCCSID);
+		RETURN FALSE;
+	END;
+END MODULE;

@@ -1,0 +1,16 @@
+CREATE COMPUTE MODULE SFFolioBitacora_guardarFolio
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+	  SET OutputRoot.SOAP.Body.folio:guardarFolio.folioBeanRequest.fechaLiquidacion=Environment.Variables.bitacora.fechaLiquidacion;
+      SET OutputRoot.SOAP.Body.folio:guardarFolio.folioBeanRequest.folio=InputRoot.XMLNSC.folio:generarFolioResponse.GenerarFolioResponse.response;
+      SET OutputRoot.SOAP.Body.folio:guardarFolio.folioBeanRequest.idCanal=Environment.Variables.bitacora.idCanal;
+      SET OutputRoot.SOAP.Body.folio:guardarFolio.folioBeanRequest.idEstatusProceso=Environment.Variables.bitacora.idEstatusProceso;
+      SET OutputRoot.SOAP.Body.folio:guardarFolio.folioBeanRequest.idProceso=Environment.Variables.bitacora.idProceso;
+      SET OutputRoot.SOAP.Body.folio:guardarFolio.folioBeanRequest.idSnapshot=COALESCE(Environment.Variables.bitacora.idSnapshot,1);
+      SET OutputRoot.SOAP.Body.folio:guardarFolio.folioBeanRequest.idSubproceso=Environment.Variables.bitacora.idSubproceso;
+      SET OutputRoot.SOAP.Body.folio:guardarFolio.folioBeanRequest.instanciaBpm=COALESCE(Environment.Variables.bitacora.instanciaBpm,1);
+      SET OutputRoot.SOAP.Body.folio:guardarFolio.folioBeanRequest.usuCre=Environment.Variables.bitacora.usuCre;
+		RETURN TRUE;
+	END;
+
+END MODULE;

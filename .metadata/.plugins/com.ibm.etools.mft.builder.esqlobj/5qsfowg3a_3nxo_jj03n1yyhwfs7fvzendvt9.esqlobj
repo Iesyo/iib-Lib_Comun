@@ -1,0 +1,16 @@
+CREATE FUNCTION getDecimal (IN valor CHARACTER, IN formato CHARACTER) RETURNS DECIMAL
+BEGIN
+	DECLARE valorDecimal DECIMAL;
+	IF valor IS NOT NULL THEN
+		CASE formato
+		WHEN 'PESOS' THEN
+			DECLARE pattern CHARACTER '#,##0.00';
+			SET valorDecimal = CAST(valor AS DECIMAL FORMAT pattern);
+		WHEN 'AIVS' THEN
+			DECLARE pattern CHARACTER '#,##0.000000';
+			SET valorDecimal = CAST(valor AS DECIMAL FORMAT pattern);
+		END CASE;
+	END IF;
+	
+	RETURN valorDecimal;
+END;

@@ -1,0 +1,6 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		SET OutputRoot.XMLNSC.params.param1 = InputRoot.XMLNSC.comparadorJaroWinkler.cadena1;
+		SET OutputRoot.XMLNSC.params.param2 = InputRoot.XMLNSC.comparadorJaroWinkler.cadena2;
+		RETURN TRUE;
+	END;

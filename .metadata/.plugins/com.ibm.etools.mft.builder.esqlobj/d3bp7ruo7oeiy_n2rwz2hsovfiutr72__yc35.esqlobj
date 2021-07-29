@@ -1,0 +1,82 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		DECLARE mensaje, operacion CHARACTER;
+		DECLARE mensajeBlob BLOB;		
+
+		SET Environment.log.Tecnologia = 'IIB';
+
+		IF EXISTS(Root.MQRFH2.usr.OperacionLog[]) THEN
+			SET Environment.Operacion = Root.MQRFH2.usr.OperacionLog;
+		END IF;
+
+		IF EXISTS(Environment.Operacion[] ) THEN
+			SET Environment.log.Operacion = Environment.Operacion;
+		ELSE
+			SET operacion                 = COALESCE(LocalEnvironment.Destination.RouterList.DestinationData.labelName, LocalEnvironment.REST.Input.Operation, 'Archivo');
+			SET Environment.Operacion     = operacion||':'||CAST(ProcessId AS CHARACTER)||'-'|| CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyyyMMddHHmmss');
+			SET Environment.log.Operacion = Environment.Operacion;
+		END IF;		
+
+		SET Environment.log.LogTimestamp = CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyyy-MM-dd HH:mm:ss');
+
+		SET Environment.log.Componente = ApplicationLabel||'.'||MessageFlowLabel || COALESCE( ' ,'||LibraryLabel,'');
+
+		IF LogError THEN
+			SET Environment.log.TipoMensaje = 'error';
+		ELSE
+			SET Environment.log.TipoMensaje = 'rastreo';
+		END IF;
+
+		IF EXISTS (Root.SOAP[]) THEN
+			SET mensajeBlob             = ASBITSTREAM(Root.SOAP CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));
+			SET Environment.log.Mensaje = CAST(mensajeBlob AS CHAR CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));
+		ELSEIF EXISTS (Root.XMLNSC[]) THEN
+			SET mensajeBlob             = ASBITSTREAM(Root.XMLNSC CCSID COALESCE(Root.Properties.CodedCharSetId,1208) ENCODING COALESCE(Root.Properties.Encoding,546));
+			SET Environment.log.Mensaje = CAST(mensajeBlob AS CHAR CCSID COALESCE(Root.Properties.CodedCharSetId,1208) ENCODING COALESCE(Root.Properties.Encoding,546));
+		ELSEIF EXISTS (Root.BLOB.BLOB[]) THEN
+			SET Environment.log.Mensaje = Root.BLOB.BLOB;
+		ELSEIF EXISTS (Root.InputLocalEnvironment[]) THEN
+			SET mensajeBlob             = ASBITSTREAM(Root.InputLocalEnvironment CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));
+			SET Environment.log.Mensaje = CAST(mensajeBlob AS CHAR CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));
+			
+			-- MANEJO DE REST
+			-- Método POST:
+		ELSEIF EXISTS (Root.JSON[]) THEN
+			SET mensajeBlob             = ASBITSTREAM(Root.JSON CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));
+			SET Environment.log.Mensaje = CAST(mensajeBlob AS CHAR CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));			
+			-- Método GET:
+		ELSEIF EXISTS (LocalEnvironment.HTTP.Input.QueryString[]) THEN
+			CREATE LASTCHILD OF Environment Domain('JSON') NAME 'temporal';
+			
+			SET Environment.temporal.Data = LocalEnvironment.HTTP.Input.QueryString;
+			SET mensajeBlob               = ASBITSTREAM(Environment.temporal CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));
+			SET Environment.log.Mensaje   = CAST(mensajeBlob AS CHAR CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));
+
+		ELSEIF EXISTS (LocalEnvironment.Destination.HTTP.QueryString[]) THEN
+			CREATE LASTCHILD OF Environment Domain('JSON') NAME 'temporal';
+			
+			SET Environment.temporal.Data = LocalEnvironment.Destination.HTTP.QueryString;
+			SET mensajeBlob               = ASBITSTREAM(Environment.temporal CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));
+			SET Environment.log.Mensaje   = CAST(mensajeBlob AS CHAR CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));
+		END IF;
+
+		CREATE LASTCHILD OF Environment Domain('XMLNSC') NAME 'Err';
+
+		SET Environment.Err = ExceptionList;
+		
+		IF EXISTS(Environment.Err.RecoverableException[]) THEN
+			SET mensajeBlob           = ASBITSTREAM(Environment.Err CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));
+			SET Environment.log.Traza = CAST(mensajeBlob AS CHAR CCSID COALESCE(Root.Properties.CodedCharSetId, 1208) ENCODING COALESCE(Root.Properties.Encoding, 546));
+		END IF;
+
+		RETURN TRUE;
+	END;	
+	
+	CREATE PROCEDURE AsignarLevelTraceSO(IN ESB_TRACE_PARMS_PROJ CHARACTER)
+	BEGIN
+		IF ProjectID IS NULL OR LENGTH(ProjectID) = 0 OR NOT EXISTS(Environment.ENV.{ESB_TRACE_PARMS_PROJ}[]) THEN
+			SET Environment.LOGGING_LABEL.levelTrace = 0;
+		ELSE
+			SET Environment.LOGGING_LABEL.levelTrace = Environment.ENV.{ESB_TRACE_PARMS_PROJ};
+		END IF;
+	END;

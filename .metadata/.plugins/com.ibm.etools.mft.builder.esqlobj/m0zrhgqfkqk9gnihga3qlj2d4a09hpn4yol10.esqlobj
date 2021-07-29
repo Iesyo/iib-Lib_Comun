@@ -1,0 +1,23 @@
+CREATE FUNCTION getMessageDescription(IN oldElement REFERENCE, IN reemplazarValor BOOLEAN, IN properties REFERENCE) RETURNS CHARACTER
+BEGIN
+	DECLARE messageException CHARACTER '';
+	
+	CASE FIELDNAME(oldElement)
+	WHEN 'Insert' THEN
+		CASE oldElement.Type
+		WHEN 12 THEN --Text
+			SET messageException = 
+				CAST(oldElement.Text AS CHAR CCSID properties.CodedCharSetId ENCODING properties.Encoding);
+		ELSE
+			SET messageException = oldElement.Text;
+		END CASE;
+	WHEN 'Text' THEN
+		SET messageException = oldElement;
+	END CASE;
+	
+	IF NOT(CONTAINS(messageException, ' ')) AND NOT(CONTAINS(messageException, '.'))  AND NOT(CONTAINS(messageException, '/')) AND NOT(reemplazarValor) THEN
+		SET messageException = '';
+	END IF;
+	
+	RETURN messageException;
+END;

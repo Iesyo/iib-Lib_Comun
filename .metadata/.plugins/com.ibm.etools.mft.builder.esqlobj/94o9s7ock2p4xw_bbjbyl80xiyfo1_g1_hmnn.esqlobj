@@ -1,0 +1,25 @@
+CREATE FUNCTION getServiceName(IN endpoint CHARACTER, IN localEnv REFERENCE) RETURNS CHARACTER
+BEGIN	
+	DECLARE serviceName CHARACTER '';
+	
+	CALL profuturo.util.func.split(endpoint, localEnv, ' ');
+	DECLARE sizeArr INTEGER CARDINALITY(localEnv.Split.Array[]);
+	
+	IF sizeArr > 0 THEN
+		DECLARE ruta CHARACTER localEnv.Split.Array[2];
+		CALL profuturo.util.func.split(ruta, localEnv, '/');
+		
+		SET sizeArr = CARDINALITY(localEnv.Split.Array[]);
+		DECLARE refArray REFERENCE TO localEnv.Split;
+		MOVE refArray FIRSTCHILD;
+		WHILE LASTMOVE(refArray) DO
+			IF CONTAINS(UPPER(refArray), 'SERVICE') OR CONTAINS(UPPER(refArray), 'SERVICIO') THEN
+				SET serviceName = refArray;
+			END IF;
+			
+			MOVE refArray NEXTSIBLING REPEAT NAME;
+		END WHILE;
+	END IF;
+	
+	RETURN serviceName;
+END;

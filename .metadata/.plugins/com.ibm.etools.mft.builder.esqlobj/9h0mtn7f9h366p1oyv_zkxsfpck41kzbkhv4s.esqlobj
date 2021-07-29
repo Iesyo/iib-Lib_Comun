@@ -1,0 +1,34 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		DECLARE nsFault NAMESPACE 'http://schemas.xmlsoap.org/soap/envelope/';
+		DECLARE nsIIBEx NAMESPACE 'http://mx.profuturo/iib/iibException/IIBException';
+		
+		IF FIELDTYPE(InputRoot.MQMD.MsgId) IS NOT NULL THEN
+			CREATE FIRSTCHILD OF OutputRoot NAME 'MQMD';
+			SET OutputRoot.MQMD.CorrelId = InputRoot.MQMD.MsgId;
+		END IF;
+		
+		IF FIELDTYPE(OutputRoot.Properties) IS NOT NULL THEN
+			SET OutputRoot.Properties = NULL;
+		END IF;
+		
+		DECLARE detalleExcepcion CHARACTER AddExceptionDetail(InputExceptionList, InputRoot.Properties);
+		DECLARE tipoError CHARACTER EX_TIPO_OTR;
+		
+		IF CONTAINS(detalleExcepcion, 'XML Parsing Errors have occurred') OR CONTAINS(detalleExcepcion, 'A schema validation error has occurred while validating the message tree') THEN
+			SET tipoError = EX_TIPO_VAL;
+		END IF;
+		
+		CREATE LASTCHILD OF OutputRoot.XMLNSC.nsFault:Fault NAME 'faultcode' VALUE 'NS1:Server';
+		CREATE LASTCHILD OF OutputRoot.XMLNSC.nsFault:Fault NAME 'faultstring';
+		CREATE LASTCHILD OF OutputRoot.XMLNSC.nsFault:Fault NAME 'detail';
+		DECLARE refFault REFERENCE TO OutputRoot.XMLNSC.nsFault:Fault;
+		
+		DECLARE nombreServicio CHARACTER Environment.nci.soap.service.nombre;
+		DECLARE operacion CHARACTER Environment.nci.soap.service.operacion;
+		DECLARE servicioOrigen CHARACTER Environment.nci.soap.servicioOrigen;
+		
+		CALL BuildException(tipoError, refFault, detalleExcepcion, InputLocalEnvironment, nombreServicio, operacion, servicioOrigen);
+		
+		RETURN TRUE;
+	END;

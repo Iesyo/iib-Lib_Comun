@@ -1,0 +1,18 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		 CALL mapToJson();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE mapToJson() BEGIN
+		DECLARE NS2 NAMESPACE 'http://mx.profuturo/iibException/ExceptionError';
+		
+		SET OutputLocalEnvironment.Destination.HTTP.ReplyStatusCode = 500;
+		SET OutputRoot.JSON.Data.IIBExceptionFault.faultcode		= InputRoot.XMLNSC.nsF:Fault.faultcode;
+		SET OutputRoot.JSON.Data.IIBExceptionFault.faultstring		= InputRoot.XMLNSC.nsF:Fault.faultstring;
+		SET OutputRoot.JSON.Data.IIBExceptionFault.CodigoError		= InputRoot.XMLNSC.nsF:Fault.detail.NS2:IIBExceptionFault.CodigoError;
+		SET OutputRoot.JSON.Data.IIBExceptionFault.tecnologia		= InputRoot.XMLNSC.nsF:Fault.detail.NS2:IIBExceptionFault.tecnologia;
+		SET OutputRoot.JSON.Data.IIBExceptionFault.fecha			= InputRoot.XMLNSC.nsF:Fault.detail.NS2:IIBExceptionFault.fecha;
+		SET OutputRoot.JSON.Data.IIBExceptionFault.mensaje			= InputRoot.XMLNSC.nsF:Fault.detail.NS2:IIBExceptionFault.mensaje;
+		SET OutputRoot.JSON.Data.IIBExceptionFault.nombreServicio	= InputRoot.XMLNSC.nsF:Fault.detail.NS2:IIBExceptionFault.nombreServicio;
+	END;

@@ -1,0 +1,13 @@
+CREATE PROCEDURE CodigosMensajesValParaCASE(IN codigo CHARACTER, IN Mensajes REFERENCE, IN RefValidaciones REFERENCE) BEGIN	
+		CASE codigo
+		WHEN 'sinParametro' THEN
+			SET Mensajes.mensaje[<].codigo = 1005;
+			SET Mensajes.mensaje[<].descripcion = 'El parámetro ' || RefValidaciones.nombre || ' con valor ' || CAST(RefValidaciones.idValor AS CHARACTER) || ' no fue encontrado.';
+		WHEN 'noRelProcSubproc' THEN
+			SET Mensajes.mensaje.codigo = 1006;
+			SET Mensajes.mensaje.descripcion = 'El idSubproceso ' || CAST(RefValidaciones.idValor AS CHARACTER) || ' (' || RefValidaciones.descValor || ') ' || ' y el idProceso ' || CAST(RefValidaciones.idPadre AS CHARACTER) ||  ' (' || RefValidaciones.descPadre || ') no están relacionados.';
+		WHEN 'noFolio' THEN
+			SET Mensajes.mensaje.codigo = 1008;
+			SET Mensajes.mensaje.descripcion = 'El folio ' || CAST(RefValidaciones.idValor AS CHARACTER) || ' no fue encontrado.';	
+		END CASE;
+END;

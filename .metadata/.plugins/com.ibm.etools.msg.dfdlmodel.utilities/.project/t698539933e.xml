@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><MessageBroker name="Lib_Comun">
+  <XSDCollection href="platform:/resource/Lib_Comun/Catalogo.xsd" prefix="" targetNamespace="">
+    <import name="IBMdefined/RecordFixLengthFieldFormat.xsd" targetNamespace="http://www.ibm.com/dfdl/RecordFixLengthFieldFormat"/>
+    <element href="platform:/resource/Lib_Comun/Catalogo.xsd#//Catalogo;XSDElementDeclaration" name="Catalogo"/>
+  </XSDCollection>
+  <XSDCollection href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd" prefix="tns" targetNamespace="http://schemas.xmlsoap.org/soap/envelope/">
+    <import name="IBMdefined/org/w3/www/xml/_1998/namespace/xml.xsd" targetNamespace="http://www.w3.org/XML/1998/namespace"/>
+    <element href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//Envelope;XSDElementDeclaration" name="Envelope" type="mlib://Lib_Comun#/-/complexType{http://schemas.xmlsoap.org/soap/envelope/}Envelope"/>
+    <element href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//Header;XSDElementDeclaration=1" name="Header" type="mlib://Lib_Comun#/-/complexType{http://schemas.xmlsoap.org/soap/envelope/}Header"/>
+    <element href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//Body;XSDElementDeclaration=2" name="Body" type="mlib://Lib_Comun#/-/complexType{http://schemas.xmlsoap.org/soap/envelope/}Body"/>
+    <element href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//Fault;XSDElementDeclaration=3" name="Fault" type="mlib://Lib_Comun#/-/complexType{http://schemas.xmlsoap.org/soap/envelope/}Fault"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//Envelope;XSDComplexTypeDefinition" name="Envelope"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//Header;XSDComplexTypeDefinition=1" name="Header"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//Body;XSDComplexTypeDefinition=2" name="Body"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//Fault;XSDComplexTypeDefinition=3" name="Fault"/>
+    <complexType href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//FaultString;XSDComplexTypeDefinition=4" name="FaultString"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//detail;XSDComplexTypeDefinition=5" name="detail"/>
+    <simpleType href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//encodingStyle;XSDSimpleTypeDefinition" name="encodingStyle" variety="list"/>
+    <attribute href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//mustUnderstand;XSDAttributeDeclaration" name="mustUnderstand"/>
+    <attribute href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//actor;XSDAttributeDeclaration=1" name="actor"/>
+    <attribute href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//encodingStyle;XSDAttributeDeclaration=2" name="encodingStyle"/>
+    <attributeGroup href="platform:/resource/Lib_Comun/IBMdefined/org/xmlsoap/schemas/soap/envelope/soapenv11.xsd#//encodingStyle;XSDAttributeGroupDefinition" name="encodingStyle"/>
+  </XSDCollection>
+  <XSDCollection href="platform:/resource/Lib_Comun/IBMdefined/RecordSeparatedFieldFormat.xsd" prefix="tns" targetNamespace="http://www.ibm.com/dfdl/RecordSeparatedFieldFormat"/>
+  <XSDCollection href="platform:/resource/Lib_Comun/IBMdefined/RecordFixLengthFieldFormat.xsd" prefix="tns" targetNamespace="http://www.ibm.com/dfdl/RecordFixLengthFieldFormat"/>
+  <XSDCollection href="platform:/resource/Lib_Comun/IBMdefined/org/w3/www/xml/_1998/namespace/xml.xsd" prefix="xml" targetNamespace="http://www.w3.org/XML/1998/namespace">
+    <attribute href="platform:/resource/Lib_Comun/IBMdefined/org/w3/www/xml/_1998/namespace/xml.xsd#//lang;XSDAttributeDeclaration" name="lang"/>
+    <attribute href="platform:/resource/Lib_Comun/IBMdefined/org/w3/www/xml/_1998/namespace/xml.xsd#//space;XSDAttributeDeclaration=1" name="space"/>
+    <attribute href="platform:/resource/Lib_Comun/IBMdefined/org/w3/www/xml/_1998/namespace/xml.xsd#//base;XSDAttributeDeclaration=2" name="base"/>
+    <attributeGroup href="platform:/resource/Lib_Comun/IBMdefined/org/w3/www/xml/_1998/namespace/xml.xsd#//specialAttrs;XSDAttributeGroupDefinition" name="specialAttrs"/>
+  </XSDCollection>
+  <XSDCollection href="platform:/resource/Lib_Comun/ModeloNCI.xsd" prefix="tns" targetNamespace="http://mx.profuturo/nci/modelo">
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//ResponseBase;XSDComplexTypeDefinition" name="ResponseBase"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//ListaMensaje;XSDComplexTypeDefinition=1" name="ListaMensaje"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Mensaje;XSDComplexTypeDefinition=2" name="Mensaje"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//listaArchivo;XSDComplexTypeDefinition=3" name="listaArchivo"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Archivo;XSDComplexTypeDefinition=4" name="Archivo"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//EstatusArchivo;XSDComplexTypeDefinition=5" name="EstatusArchivo"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//FolioProceso;XSDComplexTypeDefinition=6" name="FolioProceso"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Canal;XSDComplexTypeDefinition=7" name="Canal"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Proceso;XSDComplexTypeDefinition=8" name="Proceso"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Subproceso;XSDComplexTypeDefinition=9" name="Subproceso"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//EstatusProceso;XSDComplexTypeDefinition=10" name="EstatusProceso"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//InstanciaBPM;XSDComplexTypeDefinition=11" name="InstanciaBPM"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//ProcesamientoETL;XSDComplexTypeDefinition=12" name="ProcesamientoETL"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//listaProcesamientoETL;XSDComplexTypeDefinition=13" name="listaProcesamientoETL"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Parametro;XSDComplexTypeDefinition=14" name="Parametro"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//listaParametro;XSDComplexTypeDefinition=15" name="listaParametro"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//ListaCifraControl;XSDComplexTypeDefinition=16" name="ListaCifraControl"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//CifraControl;XSDComplexTypeDefinition=17" name="CifraControl"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Siefore;XSDComplexTypeDefinition=18" name="Siefore"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//GrupoSiefore;XSDComplexTypeDefinition=19" name="GrupoSiefore"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Subcuenta;XSDComplexTypeDefinition=20" name="Subcuenta"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Etapa;XSDComplexTypeDefinition=21" name="Etapa"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Subetapa;XSDComplexTypeDefinition=22" name="Subetapa"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Regimen;XSDComplexTypeDefinition=23" name="Regimen"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//ListaFoliosProceso;XSDComplexTypeDefinition=24" name="ListaFoliosProceso"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//Origen;XSDComplexTypeDefinition=25" name="Origen"/>
+    <simpleType href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//nss;XSDSimpleTypeDefinition" name="nss" variety="atomic"/>
+    <simpleType href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//rfcPersonaFisica;XSDSimpleTypeDefinition=1" name="rfcPersonaFisica" variety="atomic"/>
+    <simpleType href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//curp;XSDSimpleTypeDefinition=2" name="curp" variety="atomic"/>
+    <simpleType href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//numeroCuenta;XSDSimpleTypeDefinition=3" name="numeroCuenta" variety="atomic"/>
+    <simpleType href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//cuentaBanco;XSDSimpleTypeDefinition=4" name="cuentaBanco" variety="atomic"/>
+    <simpleType href="platform:/resource/Lib_Comun/ModeloNCI.xsd#//importe;XSDSimpleTypeDefinition=5" name="importe" variety="atomic"/>
+  </XSDCollection>
+  <XSDCollection href="platform:/resource/Lib_Comun/IBMdefined/soap.xsd" prefix="" targetNamespace="">
+    <element href="platform:/resource/Lib_Comun/IBMdefined/soap.xsd#//SOAP_Domain_Msg;XSDElementDeclaration" name="SOAP_Domain_Msg" type="mlib://Lib_Comun#/-/complexType{}SOAP_Msg_type"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/IBMdefined/soap.xsd#//MIME_Headers_type;XSDComplexTypeDefinition" name="MIME_Headers_type"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/IBMdefined/soap.xsd#//Attachment_type;XSDComplexTypeDefinition=1" name="Attachment_type"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/IBMdefined/soap.xsd#//SOAP_Msg_type;XSDComplexTypeDefinition=2" name="SOAP_Msg_type"/>
+    <group href="platform:/resource/Lib_Comun/IBMdefined/soap.xsd#//MIME_header_fields;XSDModelGroupDefinition" name="MIME_header_fields"/>
+  </XSDCollection>
+  <XSDCollection href="platform:/resource/Lib_Comun/IIBException.xsd" prefix="" targetNamespace="http://mx.profuturo/iib/iibException/IIBException">
+    <element href="platform:/resource/Lib_Comun/IIBException.xsd#//IIBExceptionFault;XSDElementDeclaration" name="IIBExceptionFault" type="mlib://Lib_Comun#/-/complexType{http://mx.profuturo/iib/iibException/IIBException}IIBExceptionFault_Type"/>
+    <complexType baseType="mlib://Lib_Comun#/-/complexType{http://www.w3.org/2001/XMLSchema}anyType" href="platform:/resource/Lib_Comun/IIBException.xsd#//IIBExceptionFault_Type;XSDComplexTypeDefinition" name="IIBExceptionFault_Type"/>
+  </XSDCollection>
+</MessageBroker>

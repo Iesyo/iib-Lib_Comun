@@ -1,0 +1,14 @@
+CREATE FUNCTION validarFechaFormato (IN fechaOrigen CHARACTER, IN fechaFormato CHARACTER) RETURNS BOOLEAN
+BEGIN
+	DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE'%' BEGIN END;
+	
+	DECLARE target DATE;
+	SET target = NULL;
+	SET target = CAST(fechaOrigen AS DATE FORMAT fechaFormato);
+	
+	IF target IS NULL THEN
+		RETURN FALSE;
+	END IF;
+	
+	RETURN TRUE;
+END;

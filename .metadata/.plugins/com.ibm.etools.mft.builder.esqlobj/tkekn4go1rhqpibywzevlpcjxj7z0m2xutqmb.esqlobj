@@ -1,0 +1,3 @@
+CREATE PROCEDURE CopyEntireMessage(IN inputRootNode REFERENCE, IN outputRootNode REFERENCE) BEGIN
+	SET outputRootNode = inputRootNode;
+END;

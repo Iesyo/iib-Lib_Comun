@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workingSetManager>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1627597690083_2" label="[Lib_Comun]" name="[Lib_Comun]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Lib_Comun" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1627597708834_3" label="[AP_TestGit]" name="[AP_TestGit]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/AP_TestGit" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1627597786658_4" label="[Lib_Movimientos_NPI]" name="[Lib_Movimientos_NPI]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/Lib_Movimientos_NPI" type="4"/>
+</workingSet>
 <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1627596955425_0" label="Window Working Set" name="Aggregate for window 1627596955425"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1627597415742_1" label="Window Working Set" name="Aggregate for window 1627597415742"/>
 </workingSetManager>

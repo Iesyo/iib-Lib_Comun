@@ -1,0 +1,11 @@
+CREATE COMPUTE MODULE SFFolioBitacora_crearFolio
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.SOAP.Body.folio:generarFolio.idProceso=Environment.Variables.bitacora.idProceso;
+		SET OutputRoot.SOAP.Body.folio:generarFolio.idSubproceso=Environment.Variables.bitacora.idSubproceso;
+		RETURN TRUE;
+	END;
+
+
+
+END MODULE;

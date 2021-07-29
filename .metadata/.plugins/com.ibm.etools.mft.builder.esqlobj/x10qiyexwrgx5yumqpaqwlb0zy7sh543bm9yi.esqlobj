@@ -1,0 +1,20 @@
+CREATE FUNCTION setFormatoImporte (IN importe DECIMAL, IN formato CHARACTER) RETURNS CHARACTER
+BEGIN
+              DECLARE importeFormato CHARACTER '';
+              DECLARE valorImporte DECIMAL 0.0;
+              
+              IF importe IS NOT NULL THEN
+                             SET valorImporte = importe;
+              END IF;
+              
+              CASE formato
+              WHEN 'AIVS' THEN
+                             DECLARE pattern CHARACTER '#,##0.000000';
+                             SET importeFormato = CAST(valorImporte AS CHARACTER FORMAT pattern);
+              WHEN 'PESOS' THEN
+                             DECLARE pattern CHARACTER '#,##0.00';
+                             SET importeFormato = CAST(valorImporte AS CHARACTER FORMAT pattern);
+              END CASE;
+ 
+              RETURN importeFormato;
+END;

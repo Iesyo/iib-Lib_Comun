@@ -1,0 +1,19 @@
+CREATE PROCEDURE split (IN cadena CHARACTER, IN env REFERENCE, IN delim CHARACTER)
+BEGIN
+   DECLARE P INTEGER;
+   DECLARE idx INTEGER 1;
+
+   SET env.Split = NULL;
+
+   REPEAT
+      SET P = POSITION(delim IN cadena);
+      IF P = 0 THEN
+         SET env.Split.Array[idx] = cadena;
+      ELSE
+         SET env.Split.Array[idx] = LEFT(cadena, P - 1);
+         SET cadena = SUBSTRING(cadena FROM P + LENGTH(delim));
+         SET idx = idx + 1;
+      END IF;
+	  UNTIL P = 0
+   END REPEAT;
+END;

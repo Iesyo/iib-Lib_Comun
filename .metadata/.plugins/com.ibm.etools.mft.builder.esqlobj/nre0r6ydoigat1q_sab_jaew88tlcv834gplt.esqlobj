@@ -1,0 +1,154 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL BuildSoapFault();
+		
+		IF Environment.SaltoRespuesta THEN
+			SET Environment.SaltoRespuesta = false;
+			PROPAGATE TO TERMINAL 1;
+		ELSE
+			RETURN TRUE;
+		END IF;
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE BuildSoapFault() BEGIN
+        DECLARE inputFault REFERENCE TO InputRoot.XMLNSC.nsF:Fault;
+        
+--		IF FIELDTYPE(inputFault) IS NOT NULL THEN
+--			
+--			SET Environment.FaultVar.isFault = 1;
+--			SET Environment.FaultVar.faultString = inputFault.faultstring;
+--		ELSE
+			
+		SET Environment.FaultVar.isFault = 0;
+		--SET Environment.FaultVar.faultString = 'Ocurrió un error en el servicio '||COALESCE(NombreServicio,'')||'';
+		
+		IF FIELDTYPE(Environment.buc.getPersonaByIdentificador.error.mensajeExceptionAplicacion) IS NOT NULL THEN
+			SET Environment.FaultVar.faultString = Environment.buc.getPersonaByIdentificador.error.mensajeExceptionAplicacion;
+			
+		ELSE
+			SET Environment.FaultVar.faultString = 'Ocurrió un error en el servicio ' || COALESCE(NombreServicio, '') || '';		
+		END IF;
+
+--		END IF;	
+				
+		CREATE FIELD Environment.FaultVar;
+		DECLARE faultVal REFERENCE TO Environment.FaultVar;
+		
+		SET Environment.nError						 	= 'soapenv:Server';
+		SET OutputRoot.XMLNSC.nsF:Fault.faultcode	 	= Environment.nError;
+		SET OutputRoot.XMLNSC.nsF:Fault.faultstring 	= faultVal.faultString;
+		
+		CREATE FIELD OutputRoot.XMLNSC.nsF:Fault.detail.ns:IIBExceptionFault;
+		DECLARE faultOUT REFERENCE TO OutputRoot.XMLNSC.nsF:Fault.detail.ns:IIBExceptionFault;
+		
+		CALL FaultErrorHandler(
+			faultOUT,
+			'soapenv:Server',
+			faultVal.faultString,
+			NombreServicio,
+			Tecnologia,
+			faultVal.faultString,
+			faultVal.isFault);	
+	END;
+	
+	CREATE PROCEDURE FaultErrorHandler(
+		IN rootFault		REFERENCE,
+		IN CodigoError 		CHAR,
+		IN descripcionError CHAR,
+		IN NombreServicio 	CHAR,
+		IN Tecnologia 		CHAR,
+		IN mensaje			CHAR,
+		IN faultCounter		INTEGER)
+		
+		BEGIN
+			DECLARE ErrorNumber INTEGER;
+			DECLARE ErrorText CHARACTER;
+			DECLARE Label CHARACTER;
+			DECLARE descError CHARACTER;
+			DECLARE msg CHARACTER;
+			DECLARE I INTEGER 1;
+			DECLARE start REFERENCE TO InputExceptionList.*[1];
+		
+			-- Empezamos a recopilar los mensajes
+			WHILE start.Number IS NOT NULL DO
+	   	 		SET Label       = start.Label;
+	    		SET ErrorNumber = start.Number;
+	    		
+	    		IF ErrorNumber = 3001 THEN
+	    			SET ErrorText = start.Insert.Text;
+	    		ELSE
+	        		SET ErrorText = start.Text;
+	    		END IF;
+	    		
+	    		-- Don't include the "Caught exception and rethrowing message"
+	    		IF ErrorNumber = 3754 THEN
+	    			SET descError = ErrorText;
+	    		END IF;
+	    		
+	    		IF ErrorNumber <> 2230 THEN	
+	    			SET Environment.nError=ErrorNumber;
+	    			SET msg = ''||COALESCE(''||rootFault.mensaje||';', '')||' '||COALESCE(ErrorText,'')||'';
+	    			SET I   = I+1;
+	    			MOVE start LASTCHILD;
+	    		ELSE
+	    			MOVE start LASTCHILD;
+	        	END IF;
+	        	
+	        	 -- Move start to the last child of the field to which it currently points
+	        END WHILE;
+	        
+	        
+--	        SET Environment.lastENP = COALESCE(Environment.EndPoint, Environment.lastENP);
+	        
+	        IF CONTAINS(Environment.EndPoint,'/wisd/') THEN
+	        	SET Tecnologia  = 'ETL';
+	       			        	
+	        ELSEIF CONTAINS(Environment.EndPoint,'/mit-') THEN
+	        	SET Tecnologia  = 'JAVA';
+	        	
+	        ELSEIF CONTAINS(Environment.EndPoint,'/iib/') THEN
+	        	SET Tecnologia  = 'IIB';
+	        	
+	        
+	        ELSEIF CONTAINS(Environment.EndPoint,'/Decision') THEN	
+	        	SET Tecnologia  = 'ODM';	        	
+	        
+	        ELSEIF CONTAINS(Environment.EndPoint,'/Process') THEN
+	        	SET Tecnologia  = 'BPM';
+	        END IF;
+	                
+	 
+	        IF Tecnologia  = 'ETL' THEN
+	        	SET descError	= 'Error servicio de  ETL';
+	        	SET msg			= 'Error servicio de ETL, revisar logs correspondientes a la tecnologia';
+	        END IF;
+	        
+	        CASE UPPER(Tecnologia)
+	        	WHEN 'IIB' THEN 
+	        		SET ErrorNumber = 0;
+	        	WHEN 'ETL' THEN
+	        		SET ErrorNumber = 1;
+	        	WHEN 'JAVA' THEN
+	        		SET ErrorNumber = 2;
+	        	WHEN 'ODM' THEN
+	        		SET ErrorNumber = 3;	        		
+	        	WHEN 'BPM' THEN
+	        		SET ErrorNumber = 4;    		        		
+	        END CASE;
+	        
+	        IF FIELDTYPE(InputRoot.SOAP.Body.nsF:Fault) IS NOT NULL THEN
+	        	SET msg = InputRoot.SOAP.Body.nsF:Fault.faultstring;
+	        ELSEIF  FIELDTYPE(InputRoot.XMLNSC.nsF:Fault) IS NOT NULL THEN
+	        	SET msg = InputRoot.XMLNSC.nsF:Fault.faultstring;	
+	        END IF;
+	        SET rootFault.CodigoError 				  = ErrorNumber;
+			SET rootFault.descripcionError 			  = COALESCE(descError, msg);
+			SET rootFault.nombreServicio 			  = NombreServicio||'-'||  COALESCE(InputLocalEnvironment.Destination.RouterList.DestinationData.labelName, InputLocalEnvironment.REST.Input.Operation);
+			SET rootFault.tecnologia 				  = Tecnologia;
+			SET rootFault.mensaje					  = msg;
+	        SET rootFault.fecha 				      = CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'dd-MMM-yyyy hh:mm:ss');
+	        
+	        DELETE FIELD Environment.EndPoint;
+	        
+		END;

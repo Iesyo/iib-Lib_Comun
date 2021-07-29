@@ -1,0 +1,6 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+	SET Environment.Variables.folioBitacora=InputRoot.XMLNSC.folio:guardarFolioResponse.GuardarFolioResponse.response;
+		RETURN TRUE;
+	END;
+

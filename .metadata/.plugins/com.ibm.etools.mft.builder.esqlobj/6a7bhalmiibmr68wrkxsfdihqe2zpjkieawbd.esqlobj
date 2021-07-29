@@ -1,0 +1,37 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		DECLARE i,j INTEGER;
+		DECLARE nombre, valor,padre CHARACTER;
+		
+		SET j = CARDINALITY(InputRoot.DFDL.*.dato[]);
+		SET i = 1;
+		
+		WHILE i <= j DO
+			
+			SET nombre	= SUBSTRING( InputRoot.DFDL.*.dato[i] BEFORE '=');
+			SET valor	= SUBSTRING( InputRoot.DFDL.*.dato[i] AFTER '=');
+			
+			
+			IF  CONTAINS (nombre, '.') THEN
+				SET padre = SUBSTRING( nombre BEFORE '.');
+				SET nombre = SUBSTRING( nombre AFTER '.'); 
+				SET Environment.properties.{padre}.{nombre} = valor;
+			
+			ELSE
+				SET Environment.properties.{nombre} = valor;
+			END IF; 		
+			SET i = i+1;
+			
+			
+			
+		END WHILE;
+		
+		SET OutputRoot =  Environment.tempIN;
+		DELETE FIELD Environment.tempIN;
+		
+	END;

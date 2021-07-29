@@ -1,0 +1,10 @@
+CREATE FUNCTION getNumero (IN valor CHARACTER) RETURNS INTEGER
+BEGIN
+	DECLARE valorNumerico INTEGER;
+	IF valor IS NOT NULL THEN
+		DECLARE pattern CHARACTER '#,##0';
+		SET valorNumerico = CAST(valor AS INTEGER FORMAT pattern);
+	END IF;
+	
+	RETURN valorNumerico;
+END;

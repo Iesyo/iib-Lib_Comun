@@ -1,0 +1,17 @@
+CREATE FUNCTION extraerCamposFolio (IN folio CHARACTER, IN campo CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE valorCampo CHARACTER '';
+	
+	IF folio IS NOT NULL AND folio <> '' THEN
+		CASE campo
+		WHEN 'fecha' THEN
+			SET valorCampo = SUBSTRING(folio FROM 1 FOR 8);		
+		WHEN 'hora' THEN
+			SET valorCampo = SUBSTRING(folio FROM 9 FOR 6);
+		WHEN 'consecutivo' THEN
+			SET valorCampo = SUBSTRING(folio FROM 15 FOR 4);
+		END CASE;
+	END IF;
+	
+	RETURN valorCampo;
+END;

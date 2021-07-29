@@ -1,0 +1,7 @@
+CREATE COMPUTE MODULE comparadorOracleJaroWinkler_Map_OUT
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET Environment.comparadorJaroWinkler.resultadoPorcentaje = CAST(InputRoot.XMLNSC.res.porcentaje.valor AS DECIMAL);	
+		RETURN TRUE;
+	END;
+END MODULE;

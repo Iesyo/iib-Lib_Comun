@@ -1,0 +1,5 @@
+/*EATE FUNCTION Main() RETURNS BOOLE*/
+	BEGIN
+		RETURN NOT EXISTS (Environment.ENV[]);
+	END;
+

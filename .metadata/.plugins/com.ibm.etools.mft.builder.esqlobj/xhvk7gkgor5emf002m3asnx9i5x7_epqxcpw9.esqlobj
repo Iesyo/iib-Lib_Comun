@@ -1,0 +1,7 @@
+CREATE PROCEDURE  setDescNormalError ( IN refError REFERENCE, IN refOut REFERENCE)
+BEGIN
+	SET refOut.errorCode    = refError.errorCode;
+	SET refOut.errorMessage = refError.errorMessage;
+	SET refOut.errorTrace   = refError.errorTrace;
+	
+END;

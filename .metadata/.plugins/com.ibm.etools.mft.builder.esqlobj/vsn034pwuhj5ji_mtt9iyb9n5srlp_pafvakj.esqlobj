@@ -1,0 +1,62 @@
+CREATE FUNCTION remplazarCaracteresPorHTML(IN valor CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE nuevoValor CHARACTER valor;
+	
+	IF CONTAINS(valor, 'Á') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Á', '&Aacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'á') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'á', '&aacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'É') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'É', '&Eacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'é') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'é', '&eacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'Í') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Í', '&Iacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'í') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'í', '&iacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'Ó') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Ó', '&Oacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'ó') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'ó', '&oacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'Ú') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Ú', '&Uacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'ú') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'ú', '&uacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'Ü') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Ü', '&Uuml;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'ü') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'ü', '&uuml;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'Ñ') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Ñ', '&Ntilde;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'ñ') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'ñ', '&ntilde;'); 
+	END IF;
+	
+	RETURN nuevoValor;
+END;
