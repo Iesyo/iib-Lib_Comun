@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmSOAPReply.msgnode="ComIbmSOAPReply.msgnode" xmlns:SFInvocarWSv2.subflow="SFInvocarWSv2.subflow" xmlns:SFTrace.subflow="SFTrace.subflow" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:gen_profuturo_retiros_npi_movimientos_administrar_RespuestaAcreditarMovimientos_BPMInfonavitWS_SF_AdministrarMovimientos.subflow="gen/profuturo/retiros/npi/movimientos/administrar/RespuestaAcreditarMovimientos_BPMInfonavitWS_SF_AdministrarMovimientos.subflow"
+    xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="profuturo/retiros/npi/movimientos/administrar/SF_AdministrarMovimientos.subflow" nsPrefix="profuturo_retiros_npi_movimientos_administrar_SF_AdministrarMovimientos.subflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1" useDefaults="true" udpSupport="true">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <translation xmi:type="utility:TranslatableString" key="SF_AdministrarMovimientos" bundleName="profuturo/retiros/npi/movimientos/administrar/SF_AdministrarMovimientos" pluginId="AP_Movimientos_NPI"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/AP_Movimientos_NPI/icons/full/obj16/SF_AdministrarMovimientos.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/AP_Movimientos_NPI/icons/full/obj30/SF_AdministrarMovimientos.gif"/>
+    <composition>
+      <nodes xmi:type="eflow:FCMSource" xmi:id="InTerminal.Input" location="35,152">
+        <translation xmi:type="utility:TranslatableString" key="InTerminal.Input" bundleName="profuturo/retiros/npi/movimientos/administrar/SF_AdministrarMovimientos" pluginId="AP_Movimientos_NPI"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="125,151" computeExpression="esql://routine/profuturo.retiros.npi.movimientos.administrar.esql#SF_AdministrarMovimientos_ArmaRequest.Main">
+        <translation xmi:type="utility:ConstantString" string="ArmaRequest"/>
+      </nodes>
+      <nodes xmi:type="SFInvocarWSv2.subflow:FCMComposite_1" xmi:id="FCMComposite_1_2" location="248,152" WebServiceURL="ETL_MOVIMIENTOS" requestTimeout="600" requestTimeout.internal_npcompiler="com.ibm.etools.mft.ibmnodes.compilers.GenericSOAPCompiler">
+        <translation xmi:type="utility:ConstantString" string="ETL_Movimientos"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="398,90" computeExpression="esql://routine/profuturo.retiros.npi.movimientos.administrar.esql#SF_AdministrarMovimientos_ArmaResponse.Main">
+        <translation xmi:type="utility:ConstantString" string="ArmaResponse"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_4" location="392,216" computeExpression="esql://routine/profuturo.retiros.npi.movimientos.administrar.esql#SF_AdministrarMovimientos_ArmaException.Main">
+        <translation xmi:type="utility:ConstantString" string="ArmaException"/>
+      </nodes>
+      <nodes xmi:type="ComIbmSOAPReply.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_9" location="264,32">
+        <translation xmi:type="utility:ConstantString" string="SOAP Reply"/>
+      </nodes>
+      <nodes xmi:type="gen_profuturo_retiros_npi_movimientos_administrar_RespuestaAcreditarMovimientos_BPMInfonavitWS_SF_AdministrarMovimientos.subflow:FCMComposite_1" xmi:id="FCMComposite_1_5" location="651,157">
+        <translation xmi:type="utility:ConstantString" string="RespuestaAcreditarMovimientos"/>
+        <shortDescription xmi:type="utility:ConstantString" string="Invokes WSDL operation and extracts the response from SOAP message."/>
+        <longDescription xmi:type="utility:ConstantString" string="This subflow invokes the WSDL operation and extracts message body from the response message."/>
+      </nodes>
+      <nodes xmi:type="SFTrace.subflow:FCMComposite_1" xmi:id="FCMComposite_1_6" location="919,159">
+        <translation xmi:type="utility:ConstantString" string="SFTrace"/>
+      </nodes>
+      <nodes xmi:type="SFTrace.subflow:FCMComposite_1" xmi:id="FCMComposite_1_7" location="554,156">
+        <translation xmi:type="utility:ConstantString" string="SFTrace1"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_1" sourceNode="InTerminal.Input" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.Input"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.Output" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_8" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.Output1" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_7" targetNode="FCMComposite_1_9" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out1" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_6" targetNode="FCMComposite_1_6" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.fault" targetTerminalName="InTerminal.Input"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_9" targetNode="FCMComposite_1_6" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.RespuestaAcreditarMovimientosResponse" targetTerminalName="InTerminal.Input"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_10" targetNode="FCMComposite_1_6" sourceNode="FCMComposite_1_5" sourceTerminalName="OutTerminal.failure" targetTerminalName="InTerminal.Input"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_11" targetNode="FCMComposite_1_7" sourceNode="FCMComposite_1_3" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.Input"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_12" targetNode="FCMComposite_1_7" sourceNode="FCMComposite_1_4" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.Input"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_13" targetNode="FCMComposite_1_5" sourceNode="FCMComposite_1_7" sourceTerminalName="OutTerminal.Output1" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer/>
+    <stickyBoard/>
+  </eClassifiers>
+</ecore:EPackage>

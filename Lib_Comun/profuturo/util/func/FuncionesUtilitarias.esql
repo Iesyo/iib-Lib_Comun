@@ -1,0 +1,302 @@
+BROKER SCHEMA profuturo.util.func
+
+CREATE FUNCTION setFormatoImporte (IN importe DECIMAL, IN formato CHARACTER) RETURNS CHARACTER
+BEGIN
+              DECLARE importeFormato CHARACTER '';
+              DECLARE valorImporte DECIMAL 0.0;
+              
+              IF importe IS NOT NULL THEN
+                             SET valorImporte = importe;
+              END IF;
+              
+              CASE formato
+              WHEN 'AIVS' THEN
+                             DECLARE pattern CHARACTER '#,##0.000000';
+                             SET importeFormato = CAST(valorImporte AS CHARACTER FORMAT pattern);
+              WHEN 'PESOS' THEN
+                             DECLARE pattern CHARACTER '#,##0.00';
+                             SET importeFormato = CAST(valorImporte AS CHARACTER FORMAT pattern);
+              END CASE;
+ 
+              RETURN importeFormato;
+END;
+
+CREATE FUNCTION setFormatoNumero (IN valor INTEGER) RETURNS CHARACTER
+BEGIN
+	DECLARE importeFormato CHARACTER '0';
+	
+	IF valor IS NOT NULL THEN
+		DECLARE pattern CHARACTER '#,##0';
+		SET importeFormato = CAST(valor AS CHARACTER FORMAT pattern);
+	END IF;
+
+	RETURN importeFormato;
+END;
+
+CREATE FUNCTION getDecimal (IN valor CHARACTER, IN formato CHARACTER) RETURNS DECIMAL
+BEGIN
+	DECLARE valorDecimal DECIMAL;
+	IF valor IS NOT NULL THEN
+		CASE formato
+		WHEN 'PESOS' THEN
+			DECLARE pattern CHARACTER '#,##0.00';
+			SET valorDecimal = CAST(valor AS DECIMAL FORMAT pattern);
+		WHEN 'AIVS' THEN
+			DECLARE pattern CHARACTER '#,##0.000000';
+			SET valorDecimal = CAST(valor AS DECIMAL FORMAT pattern);
+		END CASE;
+	END IF;
+	
+	RETURN valorDecimal;
+END;
+
+CREATE FUNCTION getNumero (IN valor CHARACTER) RETURNS INTEGER
+BEGIN
+	DECLARE valorNumerico INTEGER;
+	IF valor IS NOT NULL THEN
+		DECLARE pattern CHARACTER '#,##0';
+		SET valorNumerico = CAST(valor AS INTEGER FORMAT pattern);
+	END IF;
+	
+	RETURN valorNumerico;
+END;
+
+CREATE FUNCTION remplazarCaracteresPorHTML(IN valor CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE nuevoValor CHARACTER valor;
+	
+	IF CONTAINS(valor, 'Á') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Á', '&Aacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'á') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'á', '&aacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'É') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'É', '&Eacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'é') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'é', '&eacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'Í') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Í', '&Iacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'í') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'í', '&iacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'Ó') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Ó', '&Oacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'ó') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'ó', '&oacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'Ú') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Ú', '&Uacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'ú') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'ú', '&uacute;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'Ü') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Ü', '&Uuml;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'ü') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'ü', '&uuml;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'Ñ') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'Ñ', '&Ntilde;'); 
+	END IF;
+	
+	IF CONTAINS(valor, 'ñ') THEN
+		SET nuevoValor = REPLACE(nuevoValor, 'ñ', '&ntilde;'); 
+	END IF;
+	
+	RETURN nuevoValor;
+END;
+
+CREATE FUNCTION remplazarCaracteresPorHTMLInv(IN valor CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE nuevoValor CHARACTER valor;
+	
+	IF CONTAINS(valor, '&Aacute;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&Aacute;', 'Á'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&aacute;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&aacute;', 'á'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&Eacute;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&Eacute;', 'É'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&eacute;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&eacute;', 'é'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&Iacute;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&Iacute;', 'Í'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&iacute;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&iacute;', 'í'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&Oacute;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&Oacute;', 'Ó'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&oacute;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&oacute;', 'ó'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&Uacute;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&Uacute;', 'Ú'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&uacute;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&uacute;', 'ú'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&Uuml;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&Uuml;', 'Ü'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&uuml;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&uuml;', 'ü'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&Ntilde;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&Ntilde;', 'Ñ'); 
+	END IF;
+	
+	IF CONTAINS(valor, '&ntilde;') THEN
+		SET nuevoValor = REPLACE(nuevoValor, '&ntilde;', 'ñ'); 
+	END IF;
+	
+	RETURN nuevoValor;
+END;
+
+CREATE PROCEDURE split (IN cadena CHARACTER, IN env REFERENCE, IN delim CHARACTER)
+BEGIN
+   DECLARE P INTEGER;
+   DECLARE idx INTEGER 1;
+
+   SET env.Split = NULL;
+
+   REPEAT
+      SET P = POSITION(delim IN cadena);
+      IF P = 0 THEN
+         SET env.Split.Array[idx] = cadena;
+      ELSE
+         SET env.Split.Array[idx] = LEFT(cadena, P - 1);
+         SET cadena = SUBSTRING(cadena FROM P + LENGTH(delim));
+         SET idx = idx + 1;
+      END IF;
+	  UNTIL P = 0
+   END REPEAT;
+END;
+
+CREATE FUNCTION validarFechaFormato (IN fechaOrigen CHARACTER, IN fechaFormato CHARACTER) RETURNS BOOLEAN
+BEGIN
+	DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE'%' BEGIN END;
+	
+	DECLARE target DATE;
+	SET target = NULL;
+	SET target = CAST(fechaOrigen AS DATE FORMAT fechaFormato);
+	
+	IF target IS NULL THEN
+		RETURN FALSE;
+	END IF;
+	
+	RETURN TRUE;
+END;
+
+CREATE FUNCTION dateJsonToDateTime (IN fechaIn CHARACTER) RETURNS TIMESTAMP
+BEGIN
+	DECLARE CONTINUE HANDLER FOR SQLSTATE LIKE'%'
+	BEGIN
+		RETURN NULL;
+	END;
+	 
+	DECLARE tmsFecha TIMESTAMP NULL;
+	IF fechaIn IS NOT NULL THEN
+		SET tmsFecha = CAST(fechaIn AS TIMESTAMP FORMAT 'yyyy-MM-dd HH:mm:ss');
+	END IF;
+	RETURN tmsFecha;
+END;
+
+CREATE FUNCTION calculaMonto (IN porcentajeIn DECIMAL, IN importeIn DECIMAL) RETURNS DECIMAL
+BEGIN
+	DECLARE monto DECIMAL 0.0;
+	
+	IF porcentajeIn > 0 THEN
+		SET monto = importeIn * porcentajeIn / 100;
+	END IF; 
+	RETURN monto;
+END;
+
+CREATE FUNCTION calculaPorcentaje (IN montoIn DECIMAL, IN importeIn DECIMAL) RETURNS INTEGER
+BEGIN
+	DECLARE porcentaje INTEGER 0;
+	
+	IF montoIn > 0 THEN
+		SET porcentaje =  	CAST( ROUND((montoIn / importeIn * 100), 0 MODE ROUND_HALF_DOWN) AS INTEGER);	
+	END IF;
+
+	RETURN porcentaje; 
+END;
+
+
+CREATE PROCEDURE ValidarParametros (IN parametros REFERENCE,
+        IN nombresParametros REFERENCE,
+        IN localEnvironment REFERENCE,
+        INOUT labelEnvio CHARACTER,
+        INOUT parametrosFaltantes CHARACTER)
+BEGIN
+	
+		DECLARE numParam INTEGER 0;
+		SET numParam = CARDINALITY(nombresParametros.parametro[]);
+		DECLARE i INTEGER 1;
+		
+		x : WHILE i <= numParam DO
+			SET localEnvironment.Variables.result[] = SELECT T FROM parametros.parametro[] as T WHERE T.nombre = nombresParametros.parametro[i].nombre;
+			DECLARE regResp INTEGER 0;
+			SET regResp = CARDINALITY(localEnvironment.Variables.result[]);
+			
+			IF regResp > 0 THEN --AND localEnvironment.Variables.result[1].valores.valor[1] <> '' THEN
+				SET nombresParametros.parametro[i].status = 1;
+			ELSE
+				SET nombresParametros.parametro[i].status = 0;
+				IF labelEnvio = 'no_enviar' THEN
+					SET parametrosFaltantes = parametrosFaltantes || ', ';
+				END IF;
+				SET parametrosFaltantes = parametrosFaltantes || nombresParametros.parametro[i].nombre;
+				SET labelEnvio = 'no_enviar';
+			END IF;
+			
+			SET i = i + 1;
+		END WHILE x;
+END;   
+
+/*
+CREATE FUNCTION fillWithZeros (IN valor CHARACTER, IN longitud CHARACTER)
+	RETURNS CHARACTER
+	LANGUAGE JAVA
+	EXTERNAL NAME "profuturo.util.func.java.StringFunctions.fillWithZerosJava";
+	
+CREATE FUNCTION validarExpresion (IN expreg CHARACTER, IN valor CHARACTER)
+	RETURNS BOOLEAN
+	LANGUAGE JAVA
+	EXTERNAL NAME "profuturo.util.func.java.StringFunctions.validarExpresion";
+*/

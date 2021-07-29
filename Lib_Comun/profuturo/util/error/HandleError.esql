@@ -1,0 +1,177 @@
+BROKER SCHEMA profuturo.util.error
+
+DECLARE EX_TIPO_NEG CONSTANT CHARACTER 'NEGOCIO';
+DECLARE EX_TIPO_VAL CONSTANT CHARACTER 'VALIDACIÓN';
+DECLARE EX_TIPO_SIS CONSTANT CHARACTER 'SISTEMA';
+DECLARE EX_TIPO_OTR CONSTANT CHARACTER 'SERVICIOS EXTERNOS';
+DECLARE EX_TIPO_NCI CONSTANT CHARACTER 'NCI';
+DECLARE EX_TIPO_BUC CONSTANT CHARACTER 'BUC';
+
+DECLARE EX_COD_WMB CONSTANT CHARACTER '000-WMB';
+
+CREATE COMPUTE MODULE BuildFault
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE nsFault NAMESPACE 'http://schemas.xmlsoap.org/soap/envelope/';
+		DECLARE nsIIBEx NAMESPACE 'http://mx.profuturo/iib/iibException/IIBException';
+
+		CALL profuturo.util.CopyMessageHeaders(InputRoot, OutputRoot);
+		
+		DECLARE detalleExcepcion CHARACTER AddExceptionDetail(InputExceptionList, InputRoot.Properties);
+		DECLARE tipoError CHARACTER EX_TIPO_SIS;
+		
+		IF CONTAINS(detalleExcepcion, 'XML Parsing Errors have occurred') THEN
+			SET tipoError = EX_TIPO_VAL;
+		END IF;
+		
+		CREATE LASTCHILD OF OutputRoot.XMLNSC.nsFault:Fault NAME 'faultcode' VALUE 'NS1:Server';
+		CREATE LASTCHILD OF OutputRoot.XMLNSC.nsFault:Fault NAME 'faultstring';
+		CREATE LASTCHILD OF OutputRoot.XMLNSC.nsFault:Fault NAME 'detail';
+		DECLARE refFault REFERENCE TO OutputRoot.XMLNSC.nsFault:Fault;
+		
+		DECLARE nombreServicio CHARACTER getServiceName(InputRoot.HTTPInputHeader."X-Original-HTTP-Command", InputLocalEnvironment);
+		
+		DECLARE operacion CHARACTER '';
+		IF FIELDTYPE(InputLocalEnvironment.Destination.RouterList.DestinationData.labelName) IS NOT NULL THEN
+			SET operacion = InputLocalEnvironment.Destination.RouterList.DestinationData.labelName;
+		END IF;
+	
+		CALL BuildException(tipoError, refFault, detalleExcepcion, InputLocalEnvironment, nombreServicio, operacion, '');
+
+		RETURN TRUE;
+	END;
+END MODULE;
+
+CREATE FUNCTION BuildException(IN tipoError CHARACTER, IN refFault REFERENCE, IN detalleExcepcion CHARACTER, IN inputLocalEnvironment REFERENCE, IN nombreServicio CHARACTER, IN operacion CHARACTER, IN servicioOrigen CHARACTER)
+BEGIN
+	DECLARE nsIIBEx NAMESPACE 'http://mx.profuturo/iib/iibException/IIBException';
+	DECLARE codigoError INTEGER 0;
+	DECLARE descripcion CHARACTER '';
+	
+	IF tipoError = EX_TIPO_VAL THEN
+		SET refFault.faultstring = 'Ocurrió un error al validar el mensaje de entrada.';
+		SET codigoError = 1100;
+		SET descripcion = 'Los datos enviados no cumplen con el esquema, para mayor detalle ver la traza de error.';
+	ELSEIF tipoError = EX_TIPO_SIS THEN
+		SET refFault.faultstring = 'Ocurrió un error al ejecutar el servicio.';
+		SET codigoError = 1200;
+		SET descripcion = 'El servicio provocó un error en su ejecución, para mayor detalle ver la traza de error.';
+	ELSEIF tipoError = EX_TIPO_OTR THEN
+		SET refFault.faultstring = 'Ocurrió un error al invocar a otro servicio.';
+		SET codigoError = 1201;
+		SET descripcion = 'El flujo detecto un error durante la invocación de otro servicio, para mayor detalle ver la traza de error.';
+	ELSEIF tipoError = EX_TIPO_NCI THEN
+		SET refFault.faultstring = 'El servicio consumido de NCI regresó con errores';
+		SET codigoError = 1300;
+		SET descripcion = 'El flujo propagó un error proveniente del servicio consumido NCI, para mayor detalle ver la traza de error.';
+	ELSEIF tipoError = EX_TIPO_BUC THEN
+		SET refFault.faultstring = 'El servicio consumido de BUC regresó con errores';
+		SET codigoError = 1301;
+		SET descripcion = 'El flujo propagó un error proveniente del servicio consumido BUC, para mayor detalle ver la traza de error.';
+	END IF;
+	
+	SET refFault.detail.nsIIBEx:iibException.servicio = nombreServicio;
+	SET refFault.detail.nsIIBEx:iibException.operacion = operacion;
+	
+	SET refFault.detail.nsIIBEx:iibException.errores.error.tipo = tipoError;
+	SET refFault.detail.nsIIBEx:iibException.errores.error.codigo = codigoError;
+	SET refFault.detail.nsIIBEx:iibException.errores.error.descripcion = descripcion;
+
+	SET refFault.detail.nsIIBEx:iibException.errores.error.servicioOrigen = servicioOrigen;
+	SET refFault.detail.nsIIBEx:iibException.errores.error.trace = detalleExcepcion;
+END;
+
+CREATE FUNCTION AddExceptionDetail(IN inputExceptionList REFERENCE, IN properties REFERENCE) RETURNS CHARACTER
+BEGIN
+
+	DECLARE descripcionError CHARACTER '';
+	DECLARE crlf CHAR CAST(X'0D0A' AS CHAR CCSID 1208);
+	DECLARE tab CHAR CAST(X'0D09' AS CHAR CCSID 1208);
+	
+	
+    DECLARE ptrException REFERENCE TO inputExceptionList.*[1];
+	WHILE LASTMOVE(ptrException) AND CARDINALITY(ptrException.*[<].*[])>1 DO
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER CARDINALITY(ptrException.*[]);
+		IF CARDINALITY(ptrException.*[<].*[]) <= 1 THEN
+			SET J = J + 1;
+		END IF;
+		WHILE I <= J DO
+			DECLARE descTemp CHARACTER '';
+			SET descTemp = GetMessageDescription(ptrException.*[I], FALSE, properties);
+			IF descTemp <> '' THEN
+				DECLARE index INTEGER 1;
+				WHILE CONTAINS(descTemp, '&') DO
+					DECLARE valor CHARACTER '';
+					
+					SET I = I + 1;
+					SET valor = GetMessageDescription(ptrException.*[I], TRUE, properties);
+					SET descTemp = REPLACE(descTemp, '&'||CAST(index AS CHARACTER), valor);
+					SET index = index + 1;
+				END WHILE;
+				
+				IF descripcionError <> '' THEN
+					SET descripcionError = descripcionError || tab || descTemp;
+				ELSE 
+					SET descripcionError = descTemp;
+				END IF;
+			END IF;
+			SET I = I + 1;
+		END WHILE;
+		MOVE ptrException LASTCHILD;
+	END WHILE; 
+	
+	RETURN descripcionError;
+END;
+
+CREATE FUNCTION getMessageDescription(IN oldElement REFERENCE, IN reemplazarValor BOOLEAN, IN properties REFERENCE) RETURNS CHARACTER
+BEGIN
+	DECLARE messageException CHARACTER '';
+	
+	CASE FIELDNAME(oldElement)
+	WHEN 'Insert' THEN
+		CASE oldElement.Type
+		WHEN 12 THEN --Text
+			SET messageException = 
+				CAST(oldElement.Text AS CHAR CCSID properties.CodedCharSetId ENCODING properties.Encoding);
+		ELSE
+			SET messageException = oldElement.Text;
+		END CASE;
+	WHEN 'Text' THEN
+		SET messageException = oldElement;
+	END CASE;
+	
+	IF NOT(CONTAINS(messageException, ' ')) AND NOT(CONTAINS(messageException, '.'))  AND NOT(CONTAINS(messageException, '/')) AND NOT(reemplazarValor) THEN
+		SET messageException = '';
+	END IF;
+	
+	RETURN messageException;
+END;
+
+CREATE FUNCTION getServiceName(IN endpoint CHARACTER, IN localEnv REFERENCE) RETURNS CHARACTER
+BEGIN	
+	DECLARE serviceName CHARACTER '';
+	
+	CALL profuturo.util.func.split(endpoint, localEnv, ' ');
+	DECLARE sizeArr INTEGER CARDINALITY(localEnv.Split.Array[]);
+	
+	IF sizeArr > 0 THEN
+		DECLARE ruta CHARACTER localEnv.Split.Array[2];
+		CALL profuturo.util.func.split(ruta, localEnv, '/');
+		
+		SET sizeArr = CARDINALITY(localEnv.Split.Array[]);
+		DECLARE refArray REFERENCE TO localEnv.Split;
+		MOVE refArray FIRSTCHILD;
+		WHILE LASTMOVE(refArray) DO
+			IF CONTAINS(UPPER(refArray), 'SERVICE') OR CONTAINS(UPPER(refArray), 'SERVICIO') THEN
+				SET serviceName = refArray;
+			END IF;
+			
+			MOVE refArray NEXTSIBLING REPEAT NAME;
+		END WHILE;
+	END IF;
+	
+	RETURN serviceName;
+END;
+
+

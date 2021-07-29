@@ -1,0 +1,15 @@
+BROKER SCHEMA profuturo.util.error
+
+
+CREATE FILTER MODULE ValidacionParametros
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE parametrosInvalidos BOOLEAN FALSE;
+		
+		IF FIELDTYPE(Root.XMLNSC.mensajes) IS NOT NULL THEN
+			SET parametrosInvalidos = TRUE;
+		END IF;
+		RETURN parametrosInvalidos;
+	END;
+
+END MODULE;

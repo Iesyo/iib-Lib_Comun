@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmTryCatch.msgnode="ComIbmTryCatch.msgnode" xmlns:SFTrace.subflow="SFTrace.subflow" xmlns:XMLValidator.msgnode="XMLValidator.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="SFXMLValidator.subflow" nsPrefix="SFXMLValidator.subflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1" useDefaults="true" udpSupport="true">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.schemaLocation" name="schemaLocation" defaultValueLiteral="http://www.example.org/reporte file:///c:/reporte.xsd">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.filePath" name="filePath">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <translation xmi:type="utility:TranslatableString" key="SFXMLValidator" bundleName="SFXMLValidator" pluginId="Lib_Comun"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/Lib_Comun/icons/full/obj16/SFXMLValidator.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/Lib_Comun/icons/full/obj30/SFXMLValidator.gif"/>
+    <composition>
+      <nodes xmi:type="eflow:FCMSource" xmi:id="InTerminal.Input" location="26,92">
+        <translation xmi:type="utility:TranslatableString" key="InTerminal.Input" bundleName="SFXMLValidator" pluginId="Lib_Comun"/>
+      </nodes>
+      <nodes xmi:type="eflow:FCMSink" xmi:id="OutTerminal.Output" location="398,95">
+        <translation xmi:type="utility:TranslatableString" key="OutTerminal.Output" bundleName="SFXMLValidator" pluginId="Lib_Comun"/>
+      </nodes>
+      <nodes xmi:type="ComIbmTryCatch.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="143,92">
+        <translation xmi:type="utility:ConstantString" string="Try Catch"/>
+      </nodes>
+      <nodes xmi:type="XMLValidator.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="252,97" schemaLocation="http://www.example.org/reporte file:///c:/reporte.xsd" ignoreWarnings="false" fullSchemaCheck="false" enableLogging="false">
+        <translation xmi:type="utility:ConstantString" string="XML Validator"/>
+      </nodes>
+      <nodes xmi:type="SFTrace.subflow:FCMComposite_1" xmi:id="FCMComposite_1_3" location="198,30" LogError="true">
+        <translation xmi:type="utility:ConstantString" string="SFTrace"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.try" targetTerminalName="InTerminal.In"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="FCMComposite_1_1" sourceNode="InTerminal.Input" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="OutTerminal.Output" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.Invalid" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_5" targetNode="OutTerminal.Output" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.Out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.catch" targetTerminalName="InTerminal.Input"/>
+    </composition>
+    <propertyOrganizer>
+      <propertyDescriptor groupName="Group.SchemaLocation" describedAttribute="Property.schemaLocation">
+        <propertyName xmi:type="utility:TranslatableString" key="Property.schemaLocation" bundleName="XMLValidator" pluginId="com.ibm.mq.supportpacs.XMLValidator"/>
+        <propertyDescriptor groupName="Group.Log" configurable="true" describedAttribute="Property.filePath">
+          <propertyName xmi:type="utility:TranslatableString" key="Property.filePath" bundleName="ComIbmTrace" pluginId="com.ibm.etools.mft.ibmnodes.definitions"/>
+        </propertyDescriptor>
+      </propertyDescriptor>
+    </propertyOrganizer>
+    <attributeLinks promotedAttribute="Property.schemaLocation" overriddenNodes="FCMComposite_1_2">
+      <overriddenAttribute href="XMLValidator.msgnode#Property.schemaLocation"/>
+    </attributeLinks>
+    <attributeLinks promotedAttribute="Property.filePath" overriddenNodes="FCMComposite_1_3">
+      <overriddenAttribute href="SFTrace.subflow#Property.filePath"/>
+    </attributeLinks>
+    <stickyBoard/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,25 @@
+
+DECLARE SaltarRespuesta EXTERNAL BOOLEAN FALSE;
+DECLARE WebServiceURL EXTERNAL CHARACTER '';
+
+
+
+CREATE COMPUTE MODULE SFInvocarWSv2_validacion
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+		
+		SET Environment.SaltoRespuesta = SaltarRespuesta;
+		SET Environment.Inv = TRUE;
+		
+		SET Environment.EndPoint = WebServiceURL;
+		SET OutputLocalEnvironment.Destination.SOAP.Request.Transport.HTTP.WebServiceURL	= WebServiceURL;
+	    --SET InputLocalEnvironment.Destination.HTTP.RequestURL							= WebServiceURL;
+		
+	END;
+END MODULE;

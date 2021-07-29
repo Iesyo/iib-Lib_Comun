@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+name="Movimientos_NPI" targetNamespace="http://profuturo.iib.com/iib/retiros/npi/movimientos" 
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:tns="http://profuturo.iib.com/iib/retiros/npi/movimientos" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:xsd2="http://mx.profuturo/iib/iibException/IIBException">
+  <wsdl:documentation>
+    <wsdl:appinfo source="WMQI_APPINFO">
+      <MRWSDLAppInfo imported="true">
+        <generatedXSD location="Movimientos_NPI_InlineSchema1.xsd"/>
+        <binding hasEncoding="false" imported="true" name="Movimientos_NPISOAP" originalBindingStyle="document"/>
+      </MRWSDLAppInfo>
+    </wsdl:appinfo>
+  </wsdl:documentation>
+  <wsdl:types>
+    
+    <xsd:schema targetNamespace="http://profuturo.iib.com/iib/retiros/npi/movimientos" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions">
+		<xsd:include schemaLocation="Movimientos_NPI_InlineSchema1.xsd"/>
+		<xsd:import namespace="http://mx.profuturo/iib/iibException/IIBException"
+			schemaLocation="../Lib_Comun/IIBException.xsd">
+		</xsd:import>
+    </xsd:schema>
+    </wsdl:types>
+  <wsdl:message name="generarMovimientosRequest">
+    <wsdl:part element="tns:generarMovimientos" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="generarMovimientosResponse">
+    <wsdl:part element="tns:generarMovimientosResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="generarMovimientosFault">
+  	<wsdl:part element="xsd2:IIBExceptionFault" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="administrarMovimientosRequest">
+    <wsdl:part element="tns:administrarMovimientos" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="administrarMovimientosResponse">
+    <wsdl:part element="tns:administrarMovimientosResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="administrarMovimientosFault">
+  	<wsdl:part element="xsd2:IIBExceptionFault" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="Movimientos_NPI">
+    <wsdl:operation name="generarMovimientos">
+      <wsdl:input message="tns:generarMovimientosRequest"/>
+      <wsdl:output message="tns:generarMovimientosResponse"/>
+      <wsdl:fault message="tns:generarMovimientosFault" name="fault"/>
+    </wsdl:operation>
+    <wsdl:operation name="administrarMovimientos">
+      <wsdl:input message="tns:administrarMovimientosRequest"/>
+      <wsdl:output message="tns:administrarMovimientosResponse"/>
+      <wsdl:fault message="tns:administrarMovimientosFault" name="fault"/>
+     </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Movimientos_NPISOAP" type="tns:Movimientos_NPI">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="generarMovimientos">
+      <soap:operation soapAction="http://profuturo.iib.com/iib/retiros/npi/movimientos/NewOperation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="administrarMovimientos">
+      <soap:operation soapAction="http://profuturo.iib.com/iib/retiros/npi/movimientos/NewOperation2"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Movimientos_NPI">
+    <wsdl:port binding="tns:Movimientos_NPISOAP" name="Movimientos_NPISOAP">
+      <soap:address location="htp://172.16.60.70.7811/iib/retiros/npi/archivosrespuesta/v1"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,6 @@
+ETL_MOVIMIENTOS = http://qadatastage:9080/wisd/MITAPP_RETIROS/PARETI_NPI_VIV_0050
+BITACORASERVICE = http://wasnci.profuturo.mx:8000/mit-ws/services/IBitacoraProcesoSoapWSService?wsdl
+BUS_ENVIA_NOTIFICACION = http://iibnci.profuturo.mx:7810/iib/Notificaciones/EnvioCorreoService/v1
+BPM_RESPUESTA_UCAMOVS = https://172.16.60.131:9447/ProcessServer/teamworks/webservices/VVIENDA/BPMInfonavitWS.tws?wsdl
+ARCHIVOPROPERTIES = MAILS_NPI.properties
+RUTAPROPERTIES = /NCI/RETI/NPI

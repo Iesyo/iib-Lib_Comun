@@ -1,0 +1,18 @@
+BROKER SCHEMA profuturo.util.oracle
+
+CREATE COMPUTE MODULE comparadorOracleJaroWinkler_Map_IN
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.XMLNSC.params.param1 = InputRoot.XMLNSC.comparadorJaroWinkler.cadena1;
+		SET OutputRoot.XMLNSC.params.param2 = InputRoot.XMLNSC.comparadorJaroWinkler.cadena2;
+		RETURN TRUE;
+	END;
+END MODULE;
+
+CREATE COMPUTE MODULE comparadorOracleJaroWinkler_Map_OUT
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET Environment.comparadorJaroWinkler.resultadoPorcentaje = CAST(InputRoot.XMLNSC.res.porcentaje.valor AS DECIMAL);	
+		RETURN TRUE;
+	END;
+END MODULE;

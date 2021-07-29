@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmMQInput.msgnode="ComIbmMQInput.msgnode" xmlns:SFHandleError.subflow="SFHandleError.subflow" xmlns:SFTrace.subflow="SFTrace.subflow" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="SFMQInput.subflow" nsPrefix="SFMQInput.subflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1" useDefaults="true" udpSupport="true">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.queueName" name="queueName" lowerBound="1" defaultValueLiteral="QL">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.QueueError" name="QueueError" defaultValueLiteral="QL">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.filePath" name="filePath" defaultValueLiteral="/logpath">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.NombreServicio" name="NombreServicio" lowerBound="1" defaultValueLiteral="Servicio IIB">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.Tecnologia" name="Tecnologia" lowerBound="1" defaultValueLiteral="IIB">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <translation xmi:type="utility:TranslatableString" key="SFMQInput" bundleName="SFMQInput" pluginId="Lib_Comun"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/Lib_Comun/icons/full/obj16/SFMQInput.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/Lib_Comun/icons/full/obj30/SFMQInput.gif"/>
+    <composition>
+      <nodes xmi:type="eflow:FCMSink" xmi:id="OutTerminal.Output" location="420,138">
+        <translation xmi:type="utility:TranslatableString" key="OutTerminal.Output" bundleName="SFMQInput" pluginId="Lib_Comun"/>
+      </nodes>
+      <nodes xmi:type="ComIbmMQInput.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="9,137" messageDomainProperty="XMLNSC">
+        <translation xmi:type="utility:ConstantString" string="ValidarEstructura"/>
+      </nodes>
+      <nodes xmi:type="SFHandleError.subflow:FCMComposite_1" xmi:id="FCMComposite_1_1" location="63,207">
+        <translation xmi:type="utility:ConstantString" string="SFHandleError"/>
+      </nodes>
+      <nodes xmi:type="SFTrace.subflow:FCMComposite_1" xmi:id="FCMComposite_1_3" location="319,138">
+        <translation xmi:type="utility:ConstantString" string="SFTrace"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_4" location="167,137" computeExpression="esql://routine/#SFMQInput_Compute.Main">
+        <translation xmi:type="utility:ConstantString" string="GuardarMQMD"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_1" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.failure" targetTerminalName="InTerminal.Input"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="FCMComposite_1_1" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.catch" targetTerminalName="InTerminal.Input"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="OutTerminal.Output" sourceNode="FCMComposite_1_3" sourceTerminalName="OutTerminal.Output1" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_4" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_5" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_4" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.Input"/>
+    </composition>
+    <propertyOrganizer>
+      <propertyDescriptor groupName="Group.Queues" propertyEditor="com.ibm.etools.mft.ibmnodes.editors.mq.MQQueueNameEditor" configurable="true" describedAttribute="Property.queueName">
+        <propertyName xmi:type="utility:TranslatableString" key="Property.queueName" bundleName="ComIbmMQInput" pluginId="com.ibm.etools.mft.ibmnodes.definitions"/>
+        <propertyDescriptor groupName="Group.Queues" propertyEditor="com.ibm.etools.mft.ibmnodes.editors.mq.MQQueueNameEditor" configurable="true" describedAttribute="Property.QueueError">
+          <propertyName xmi:type="utility:TranslatableString" key="Property.QueueError" bundleName="SFMQInput" pluginId="Lib_Comun"/>
+          <propertyDescriptor groupName="Group.Log" configurable="true" describedAttribute="Property.filePath">
+            <propertyName xmi:type="utility:TranslatableString" key="Property.filePath" bundleName="ComIbmTrace" pluginId="com.ibm.etools.mft.ibmnodes.definitions"/>
+            <propertyDescriptor groupName="Group.DatosServicio" configurable="true" userDefined="true" describedAttribute="Property.NombreServicio">
+              <propertyName xmi:type="utility:TranslatableString" key="Property.NombreServicio" bundleName="SFHandleError" pluginId="Lib_Comun"/>
+              <propertyDescriptor groupName="Group.DatosServicio" configurable="true" userDefined="true" describedAttribute="Property.Tecnologia">
+                <propertyName xmi:type="utility:TranslatableString" key="Property.Tecnologia" bundleName="SFHandleError" pluginId="Lib_Comun"/>
+              </propertyDescriptor>
+            </propertyDescriptor>
+          </propertyDescriptor>
+        </propertyDescriptor>
+      </propertyDescriptor>
+    </propertyOrganizer>
+    <attributeLinks promotedAttribute="Property.queueName" overriddenNodes="FCMComposite_1_2">
+      <overriddenAttribute href="ComIbmMQInput.msgnode#Property.queueName"/>
+    </attributeLinks>
+    <attributeLinks promotedAttribute="Property.QueueError" overriddenNodes="FCMComposite_1_1">
+      <overriddenAttribute href="SFHandleError.subflow#Property.queueName"/>
+    </attributeLinks>
+    <attributeLinks promotedAttribute="Property.filePath" overriddenNodes="FCMComposite_1_3">
+      <overriddenAttribute href="SFTrace.subflow#Property.filePath"/>
+    </attributeLinks>
+    <attributeLinks promotedAttribute="Property.filePath" overriddenNodes="FCMComposite_1_1">
+      <overriddenAttribute href="SFHandleError.subflow#Property.filePath"/>
+    </attributeLinks>
+    <attributeLinks promotedAttribute="Property.NombreServicio" overriddenNodes="FCMComposite_1_1">
+      <overriddenAttribute href="SFHandleError.subflow#Property.NombreServicio"/>
+    </attributeLinks>
+    <attributeLinks promotedAttribute="Property.Tecnologia" overriddenNodes="FCMComposite_1_1">
+      <overriddenAttribute href="SFHandleError.subflow#Property.Tecnologia"/>
+    </attributeLinks>
+    <stickyBoard/>
+  </eClassifiers>
+</ecore:EPackage>

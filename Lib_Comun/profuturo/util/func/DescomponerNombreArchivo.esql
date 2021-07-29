@@ -1,0 +1,41 @@
+BROKER SCHEMA profuturo.util.func
+
+CREATE FUNCTION extraerNombreArchivo (IN nombreArchivo CHARACTER, IN campo CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE valorCampo CHARACTER;
+	Declare camposRow ROW;
+	SET camposRow.Split = NULL;
+	
+	CASE campo 
+	WHEN 'fecha' THEN
+		CALL split(nombreArchivo, camposRow, '.');
+		
+		DECLARE fechaArchivo CHARACTER SUBSTRING(camposRow.Split.Array[4] FROM 2 FOR 6);		
+		DECLARE fecha DATE CAST(fechaArchivo AS DATE FORMAT 'yyMMdd');
+		SET valorCampo = CAST(fecha AS CHARACTER FORMAT 'yyyyMMdd');
+	WHEN 'consecutivo' THEN
+		CALL split(nombreArchivo, camposRow, '.');
+		
+		SET valorCampo = SUBSTRING(camposRow.Split.Array[6] FROM 2 FOR 3);
+	END CASE;
+
+	RETURN valorCampo;
+END;
+
+CREATE FUNCTION extraerCamposFolio (IN folio CHARACTER, IN campo CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE valorCampo CHARACTER '';
+	
+	IF folio IS NOT NULL AND folio <> '' THEN
+		CASE campo
+		WHEN 'fecha' THEN
+			SET valorCampo = SUBSTRING(folio FROM 1 FOR 8);		
+		WHEN 'hora' THEN
+			SET valorCampo = SUBSTRING(folio FROM 9 FOR 6);
+		WHEN 'consecutivo' THEN
+			SET valorCampo = SUBSTRING(folio FROM 15 FOR 4);
+		END CASE;
+	END IF;
+	
+	RETURN valorCampo;
+END;

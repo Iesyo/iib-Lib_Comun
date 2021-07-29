@@ -1,0 +1,22 @@
+
+
+Importing file: C:\BUS\wsf4\generaWSDL\WSDL_SOURCE\Movimientos_NPI.wsdl
+
+The WSDL import will proceed with bindings Movimientos_NPISOAP.
+Creating wsdl schema document for file:///C:/BUS/wsf4/generaWSDL/WSDL_SOURCE/Movimientos_NPI.wsdl.
+Parsing wsdl binding {http://profuturo.iib.com/iib/retiros/npi/movimientos}Movimientos_NPISOAP.
+Parsing wsdl binding input generarMovimientos.
+Parsing wsdl binding output generarMovimientos.
+Processing doc style for operation generarMovimientos.
+Populating WSDL schema Movimientos_NPI.xsd.
+Creating file Movimientos_NPI.xsd in the workspace.
+Creating file Movimientos_NPI_InlineSchema1.xsd in the workspace.
+Copying source WSDL Movimientos_NPI.wsdl to Movimientos_NPI.wsdl.
+
+Elapsed time processing this message definition file: 0.422 seconds
+Number of warnings for this message definition file: 0
+
+
+Number of files processed: 1
+
+

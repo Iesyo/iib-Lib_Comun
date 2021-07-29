@@ -1,0 +1,15 @@
+BROKER SCHEMA profuturo.util
+
+CREATE PROCEDURE CopyMessageHeaders(IN inputRootNode REFERENCE, IN outputRootNode REFERENCE) BEGIN
+	DECLARE I INTEGER 1;
+	DECLARE J INTEGER;
+	SET J = CARDINALITY(inputRootNode.*[]);
+	WHILE I < J DO
+		SET outputRootNode.*[I] = inputRootNode.*[I];
+		SET I = I + 1;
+	END WHILE;
+END;
+
+CREATE PROCEDURE CopyEntireMessage(IN inputRootNode REFERENCE, IN outputRootNode REFERENCE) BEGIN
+	SET outputRootNode = inputRootNode;
+END;

@@ -1,0 +1,18 @@
+BROKER SCHEMA profuturo.util.soap
+
+CREATE COMPUTE MODULE extraerDatosServicio
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+		SET Environment.nci.soap.service.nombre = InputRoot.SOAP.Context.service;
+		SET Environment.nci.soap.service.operacion = InputRoot.SOAP.Context.operation;
+		RETURN TRUE;
+	END;
+END MODULE;
+
+
+CREATE PROCEDURE setServicioOrigen(IN env REFERENCE, IN sistema CHARACTER, IN servicio CHARACTER, IN operacion CHARACTER) BEGIN
+	
+	SET env.nci.soap.servicioOrigen = sistema || ': ' || servicio || '.' || operacion;
+	
+END;

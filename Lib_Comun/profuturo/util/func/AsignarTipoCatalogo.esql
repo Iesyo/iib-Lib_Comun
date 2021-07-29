@@ -1,0 +1,36 @@
+BROKER SCHEMA profuturo.util.func
+
+CREATE FUNCTION AsignarTipoCatalogo (IN parametro CHARACTER) RETURNS CHARACTER	
+	BEGIN
+		DECLARE idTipoCatalogo CHARACTER;
+		SET idTipoCatalogo = NULL;
+		
+		CASE parametro
+		WHEN 'idProceso' THEN
+			SET idTipoCatalogo = '2';
+		WHEN 'idSubproceso' THEN		---Análisis de Padre
+			SET idTipoCatalogo = '3';
+		WHEN 'idEstatusProceso' THEN			---Análisis por ser Estatus de Proceso
+			SET idTipoCatalogo = '6';
+		WHEN 'idEtapa' THEN
+			SET idTipoCatalogo = '7';
+		WHEN 'idSubetapa' THEN
+			SET idTipoCatalogo = '8';
+		WHEN 'idEstatusSubetapa' THEN			---Análisis por ser Estatus de Subetapa
+			SET idTipoCatalogo = '11';
+		WHEN 'idSiefore' THEN
+			SET idTipoCatalogo = '18';
+		WHEN 'idRegimen' THEN
+			SET idTipoCatalogo = '21';
+		WHEN 'idLiberacion' THEN
+			SET idTipoCatalogo = '35';
+		WHEN 'idResultado' THEN
+			SET idTipoCatalogo = '9';
+		WHEN 'idEstatusArchivo' THEN
+			SET idTipoCatalogo = '1';
+		WHEN 'idOrigen' THEN
+			SET idTipoCatalogo = '45';
+		END CASE;
+			
+		RETURN idTipoCatalogo;
+	END;

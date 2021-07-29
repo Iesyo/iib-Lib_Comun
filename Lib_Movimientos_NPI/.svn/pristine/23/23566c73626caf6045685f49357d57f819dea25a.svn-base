@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://profuturo.iib.com/iib/retiros/npi/movimientos" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://profuturo.iib.com/iib/retiros/npi/movimientos" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+      <xsd:element ibmSchExtn:docRoot="true" name="generarMovimientos">
+        <xsd:complexType>
+          <xsd:sequence>
+        	<xsd:element minOccurs="0" name="sr_folio" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_proceso" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_subproceso" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_subetapa" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_etapa" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_usuario" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_tipo_mov" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_reproceso" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_fechaAccion" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_fechaLiquidacion" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_nombreArchivo" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element ibmSchExtn:docRoot="true" name="generarMovimientosResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+  			<xsd:element minOccurs="0" name="success" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="mensaje" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element ibmSchExtn:docRoot="true" name="administrarMovimientos">
+        <xsd:complexType>
+          <xsd:sequence>
+        	<xsd:element minOccurs="0" name="sr_folio" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_proceso" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_subproceso" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_subetapa" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_etapa" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_usuario" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_tipo_mov" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_reproceso" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_fechaAccion" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_fechaLiquidacion" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sr_nombreArchivo" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element ibmSchExtn:docRoot="true" name="administrarMovimientosResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+  			<xsd:element minOccurs="0" name="success" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="mensaje" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>

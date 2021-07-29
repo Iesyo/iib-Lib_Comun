@@ -1,0 +1,37 @@
+BROKER SCHEMA profuturo.retiros.npi.movimientos.generar.esql
+DECLARE nsRqst NAMESPACE 'http://profuturo.iib.com/iib/retiros/npi/movimientos';
+DECLARE nsMovs NAMESPACE 'http://PARETI_NPI_VIV_0050.MITAPP_RETIROS.isd.ibm.com/soapoverhttp/';
+
+CREATE COMPUTE MODULE SF_GenerarMovimientos_PreparaPreMovs
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+
+		DECLARE refRqst REFERENCE TO InputRoot.XMLNSC.nsRqst:generarMovimientos;
+		SET Environment.variablesSubetapaRequest.iniciarSubetapaRequest.folio = refRqst.sr_folio;
+		SET Environment.variablesSubetapaRequest.iniciarSubetapaRequest.idEstatus = 35;
+		SET Environment.variablesSubetapaRequest.iniciarSubetapaRequest.idSubproceso = refRqst.sr_subproceso;
+		SET Environment.variablesSubetapaRequest.iniciarSubetapaRequest.idSubetapa = refRqst.sr_subetapa;
+		SET Environment.variablesSubetapaRequest.iniciarSubetapaRequest.parametros[1].parametro[1].nombre =  'USUARIO';
+		SET Environment.variablesSubetapaRequest.iniciarSubetapaRequest.parametros[1].parametro[1].valores[1].valor =  refRqst.sr_usuario;
+		SET Environment.variablesSubetapaRequest.iniciarSubetapaRequest.parametros[1].parametro[2].nombre =  'ID_ETAPA';
+		SET Environment.variablesSubetapaRequest.iniciarSubetapaRequest.parametros[1].parametro[2].valores[1].valor =  22; --APLICACION
+		PROPAGATE TO LABEL 'actualizarBitacora';
+		
+		SET OutputRoot.XMLNSC.nsRqst:generarMovimientosResponse.success = TRUE;
+		SET OutputRoot.XMLNSC.nsRqst:generarMovimientosResponse.mensaje = 'Operación exitosa';
+		PROPAGATE TO TERMINAL 'out1';
+		
+		DELETE FIELD OutputRoot.XMLNS;
+		SET OutputRoot.XMLNSC.nsMovs:PARETI_GPM_0060.sr_folio 		= InputRoot.XMLNSC.nsRqst:generarMovimientos.sr_folio;
+		SET OutputRoot.XMLNSC.nsMovs:PARETI_GPM_0060.sr_proceso     = InputRoot.XMLNSC.nsRqst:generarMovimientos.sr_proceso;
+		SET OutputRoot.XMLNSC.nsMovs:PARETI_GPM_0060.sr_subproceso  = InputRoot.XMLNSC.nsRqst:generarMovimientos.sr_subproceso;
+		SET OutputRoot.XMLNSC.nsMovs:PARETI_GPM_0060.sr_subetapa    = InputRoot.XMLNSC.nsRqst:generarMovimientos.sr_subetapa;
+		SET OutputRoot.XMLNSC.nsMovs:PARETI_GPM_0060.sr_fecha_acc   = REPLACE(SUBSTRING(InputRoot.XMLNSC.nsRqst:generarMovimientos.sr_fechaAccion BEFORE 'T'),'-','');
+		SET OutputRoot.XMLNSC.nsMovs:PARETI_GPM_0060.sr_tipo_mov    = InputRoot.XMLNSC.nsRqst:generarMovimientos.sr_tipo_mov;
+		SET OutputRoot.XMLNSC.nsMovs:PARETI_GPM_0060.sr_fecha_liq   = REPLACE(SUBSTRING(InputRoot.XMLNSC.nsRqst:generarMovimientos.sr_fechaLiquidacion BEFORE 'T'),'-','');
+		SET OutputRoot.XMLNSC.nsMovs:PARETI_GPM_0060.sr_reproceso   = InputRoot.XMLNSC.nsRqst:generarMovimientos.sr_reproceso;
+		SET Environment.Request = refRqst;
+		
+		RETURN TRUE;
+	END;
+END MODULE;

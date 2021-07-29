@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://mx.profuturo/iib/iibException/IIBException"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://mx.profuturo/iib/iibException/IIBException">
+	<xsd:element name="IIBExceptionFault" type="IIBExceptionFault_Type" />
+	<xsd:complexType name="IIBExceptionFault_Type">
+		<xsd:sequence>
+			<xsd:element name="CodigoError" type="xsd:string"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="descripcionError" type="xsd:string"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="nombreServicio" type="xsd:string"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="tecnologia" type="xsd:string"
+				minOccurs="0" maxOccurs="1" />
+			<xsd:element name="mensaje" type="xsd:string" minOccurs="0"
+				maxOccurs="1" />
+			<xsd:element name="fecha" type="xsd:string" minOccurs="0"
+				maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

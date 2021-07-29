@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ComIbmFileRead.msgnode="ComIbmFileRead.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="SFCargaPropiedades.subflow" nsPrefix="SFCargaPropiedades.subflow">
+  <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1" useDefaults="true" udpSupport="true">
+    <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.ArchivoPopiedades" name="ArchivoPopiedades" defaultValueLiteral="INFONAVIT.properties">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.DireccionArchivo" name="DireccionArchivo" defaultValueLiteral="/var/mqsi/properties">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <translation xmi:type="utility:TranslatableString" key="SFCargaPropiedades" bundleName="SFCargaPropiedades" pluginId="LIB_COMUN_C3"/>
+    <colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/LIB_COMUN_C3/icons/full/obj16/SFCargaPropiedades.gif"/>
+    <colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/LIB_COMUN_C3/icons/full/obj30/SFCargaPropiedades.gif"/>
+    <composition>
+      <nodes xmi:type="eflow:FCMSource" xmi:id="InTerminal.Input" location="33,123">
+        <translation xmi:type="utility:TranslatableString" key="InTerminal.Input" bundleName="SFCargaPropiedades" pluginId="LIB_COMUN_C3"/>
+      </nodes>
+      <nodes xmi:type="eflow:FCMSink" xmi:id="OutTerminal.Output" location="375,124">
+        <translation xmi:type="utility:TranslatableString" key="OutTerminal.Output" bundleName="SFCargaPropiedades" pluginId="LIB_COMUN_C3"/>
+      </nodes>
+      <nodes xmi:type="ComIbmFileRead.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="180,209" inputDirectory="/var/mqsi/properties" filenamePattern="1" messageDomainProperty="DFDL" messageTypeProperty="{}:Catalogo">
+        <translation xmi:type="utility:ConstantString" string="File Read"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="106,123" computeExpression="esql://routine/#SFCargaPropiedades_RquiereCarga.Main">
+        <translation xmi:type="utility:ConstantString" string="RequiereCarga?"/>
+      </nodes>
+      <nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="289,206" computeExpression="esql://routine/#SFCargaPropiedades_CargaEnvironment.Main">
+        <translation xmi:type="utility:ConstantString" string="CargaEnvironment"/>
+      </nodes>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_2" sourceNode="InTerminal.Input" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="FCMComposite_1_1" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_5" targetNode="OutTerminal.Output" sourceNode="FCMComposite_1_3" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+      <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_6" targetNode="OutTerminal.Output" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.out1" targetTerminalName="InTerminal.in"/>
+    </composition>
+    <propertyOrganizer>
+      <propertyDescriptor groupName="Group.Archivo" propertyEditor="com.ibm.etools.mft.ibmnodes.editors.file.FileReadNodeFilePropertyEditor" configurable="true" describedAttribute="Property.ArchivoPopiedades">
+        <propertyName xmi:type="utility:TranslatableString" key="Property.ArchivoPopiedades" bundleName="SFCargaPropiedades" pluginId="LIB_COMUN_C3"/>
+        <propertyDescriptor groupName="Group.Archivo" configurable="true" describedAttribute="Property.DireccionArchivo">
+          <propertyName xmi:type="utility:TranslatableString" key="Property.DireccionArchivo" bundleName="SFCargaPropiedades" pluginId="LIB_COMUN_C3"/>
+        </propertyDescriptor>
+      </propertyDescriptor>
+    </propertyOrganizer>
+    <attributeLinks promotedAttribute="Property.ArchivoPopiedades" overriddenNodes="FCMComposite_1_1">
+      <overriddenAttribute href="ComIbmFileRead.msgnode#Property.filenamePattern"/>
+    </attributeLinks>
+    <attributeLinks promotedAttribute="Property.DireccionArchivo" overriddenNodes="FCMComposite_1_1">
+      <overriddenAttribute href="ComIbmFileRead.msgnode#Property.inputDirectory"/>
+    </attributeLinks>
+    <stickyBoard/>
+  </eClassifiers>
+</ecore:EPackage>

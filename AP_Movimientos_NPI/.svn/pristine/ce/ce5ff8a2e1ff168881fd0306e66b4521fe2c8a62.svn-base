@@ -1,0 +1,41 @@
+#Server Local
+project.runtime = C:/Program Files/IBM/IIB/10.0.0.3/tools
+project.runtime.override= C:/Program Files/IBM/IIB/10.0.0.3/server/bin
+project.workspace = C:/Integracion/IBMIT/NCI/VIVIENDA/AP_MOVIMIENTOS_NPI
+
+
+#General Variables
+TIME=1600
+#nombredelbar
+name.barfile.line = AP_Movimientos_NPI
+#nombredeAplicacion
+project.application.line = AP_Movimientos_NPI
+
+EGXGP=EG-RETIROS_BENEFICIOS
+
+#Local deploy
+BRKR_LOCAL=BRKR_LOCAL
+EG_LOCAL=EG_VIVIENDA
+
+
+
+#Desa Deploy
+BRKR_DEV=QMDEV_BRK
+
+#QA Deploy
+BRKR_QA=QMDEV_BRK
+
+URL_LOCAL=tcp://@127.0.0.1:4415
+URL_DEV=tcp://LE998080:L3**080899@wmbdesaev.profuturo-gnp.net:4414
+URL_QA=tcp://LE998080:L3**080899@wmbdesaft.profuturo-gnp.net:4414
+
+#QA Deploy
+BRKR_QA=QMDEV_BRK
+
+#DatosQAyProd Profuturo
+
+URL_PRODPROFUTURO=tcp://LE998080:L3**080899@172.16.60.70:4414
+URL_QAPROFUTURO=tcp://EC501368:IIB3C1368@172.16.60.132:4414
+
+BRKR_PRODPROFUTURO=QMDEV_BRK
+BRKR_QAPROFUTURO=QMQA_BRK

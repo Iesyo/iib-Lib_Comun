@@ -1,0 +1,55 @@
+
+
+CREATE COMPUTE MODULE SFInvocarWSv2_errorJava
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyEntireMessage();
+		
+		RETURN FALSE;
+	END;
+
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN		
+		DECLARE inMessage BLOB;
+		SET inMessage = ASBITSTREAM(InputRoot.XMLNSC OPTIONS FolderBitStream CCSID 1208);
+		DECLARE cMessage CHARACTER CAST(inMessage AS CHARACTER ENCODING 546);
+		DELETE FIELD OutputLocalEnvironment.Destination.SOAP.Request.Transport.HTTP.WebServiceURL;
+		DECLARE succes CHARACTER COALESCE(SUBSTRING(SUBSTRING( cMessage AFTER '<success>') BEFORE '</success>'),'');
+		DECLARE codRet CHARACTER COALESCE(SUBSTRING(SUBSTRING( cMessage AFTER '<codRet>') BEFORE '</codRet>'),'');
+		
+		IF succes = 'false' THEN
+			
+			--SET OutputRoot = InputRoot;
+			
+			DECLARE Message CHARACTER SUBSTRING(SUBSTRING( cMessage AFTER '<errorMessage>') BEFORE '</errorMessage>');
+									
+			SET OutputRoot.XMLNSC.nsF:Fault.text = Message;
+			SET OutputRoot.XMLNSC.nsF:Fault.faultstring = Message;
+			PROPAGATE TO TERMINAL 1;	
+		ELSEIF codRet <> '000' AND codRet <> '' AND codRet <> '001' THEN
+			
+			--SET OutputRoot = InputRoot;
+			
+			DECLARE desRet CHARACTER SUBSTRING(SUBSTRING( cMessage AFTER '<desRet>') BEFORE '</desRet>');
+			DECLARE msgRet CHARACTER SUBSTRING(SUBSTRING( cMessage AFTER '<msgRet>') BEFORE '</msgRet>');
+									
+			IF Environment.SaltoRespuesta THEN
+				SET Environment.codRet	=	codRet;									
+			END IF;
+									
+			SET OutputRoot.XMLNSC.nsF:Fault.text = msgRet;
+			SET OutputRoot.XMLNSC.nsF:Fault.faultstring = desRet;
+			PROPAGATE TO TERMINAL 1;
+		ELSE
+			SET OutputRoot = InputRoot;
+			PROPAGATE TO TERMINAL 2 DELETE DEFAULT;
+			SET OutputRoot = InputRoot;
+			DELETE FIELD Environment.EndPoint;
+			
+			SET Environment.codRet	=	codRet;
+			PROPAGATE TO TERMINAL 0;
+		END IF;
+		
+		
+	END;
+END MODULE;

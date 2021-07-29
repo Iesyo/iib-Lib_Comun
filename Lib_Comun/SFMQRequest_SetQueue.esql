@@ -1,0 +1,20 @@
+
+
+CREATE COMPUTE MODULE SFMQRequest_SetQueue
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyEntireMessage();
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+		
+		
+		SET OutputRoot.MQMD.MsgId = InputRoot.MQMD.MsgId;
+	    SET OutputRoot.MQMD.CorrelId = InputRoot.MQMD.MsgId;
+	   	SET OutputLocalEnvironment  = InputLocalEnvironment;
+	    SET InputLocalEnvironment.MQ.GET.QueueName = Environment.QS;
+
+	END;
+END MODULE;

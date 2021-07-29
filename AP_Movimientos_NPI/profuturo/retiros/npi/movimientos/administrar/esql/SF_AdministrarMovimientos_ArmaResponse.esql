@@ -1,0 +1,25 @@
+BROKER SCHEMA profuturo.retiros.npi.movimientos.administrar.esql
+DECLARE nsuca NAMESPACE 'http://VVIENDA/BPMInfonavitWS.tws';
+
+
+
+
+CREATE COMPUTE MODULE SF_AdministrarMovimientos_ArmaResponse
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET Environment.variables.informar.resultado = 'SIN HALLAZGOS';
+		SET Environment.variables.informar.folio = Environment.Request.sr_folio;
+		IF Environment.Bitacora = TRUE THEN 
+			PROPAGATE TO LABEL 'actualizarBitacora';
+		END IF;
+			
+
+		
+		SET OutputRoot.XMLNSC.nsuca:RespuestaAcreditarMovimientos.nsuca:folio				 = Environment.Request.sr_folio;
+		SET OutputRoot.XMLNSC.nsuca:RespuestaAcreditarMovimientos.nsuca:estatus				 = true;
+		SET OutputRoot.XMLNSC.nsuca:RespuestaAcreditarMovimientos.nsuca:mensaje				 = 'Operacion exitosa';
+				
+		RETURN TRUE;
+	END;
+
+END MODULE;
