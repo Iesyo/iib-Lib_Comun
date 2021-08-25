@@ -1,5 +1,0 @@
-/*EATE FUNCTION Main() RETURNS BOOLE*/
-	BEGIN
-		SET Environment.comparadorJaroWinkler.resultadoPorcentaje = CAST(InputRoot.XMLNSC.res.porcentaje.valor AS DECIMAL);	
-		RETURN TRUE;
-	END;

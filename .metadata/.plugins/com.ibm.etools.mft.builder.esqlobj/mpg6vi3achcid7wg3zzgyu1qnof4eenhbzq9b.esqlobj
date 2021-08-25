@@ -1,8 +1,0 @@
-CREATE COMPUTE MODULE SFFolioBitacora_folio
-	CREATE FUNCTION Main() RETURNS BOOLEAN
-	BEGIN
-	SET Environment.Variables.folioBitacora=InputRoot.XMLNSC.folio:guardarFolioResponse.GuardarFolioResponse.response;
-		RETURN TRUE;
-	END;
-
-END MODULE;

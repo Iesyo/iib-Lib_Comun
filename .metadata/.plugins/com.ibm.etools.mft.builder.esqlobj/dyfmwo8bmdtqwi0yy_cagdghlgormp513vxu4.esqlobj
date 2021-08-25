@@ -1,5 +1,0 @@
-CREATE PROCEDURE setServicioOrigen(IN env REFERENCE, IN sistema CHARACTER, IN servicio CHARACTER, IN operacion CHARACTER) BEGIN
-	
-	SET env.nci.soap.servicioOrigen = sistema || ': ' || servicio || '.' || operacion;
-	
-END;

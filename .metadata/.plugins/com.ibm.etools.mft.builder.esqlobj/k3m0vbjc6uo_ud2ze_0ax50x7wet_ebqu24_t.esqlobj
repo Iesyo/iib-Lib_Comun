@@ -1,9 +1,0 @@
-CREATE FUNCTION calculaMonto (IN porcentajeIn DECIMAL, IN importeIn DECIMAL) RETURNS DECIMAL
-BEGIN
-	DECLARE monto DECIMAL 0.0;
-	
-	IF porcentajeIn > 0 THEN
-		SET monto = importeIn * porcentajeIn / 100;
-	END IF; 
-	RETURN monto;
-END;

@@ -1,7 +1,0 @@
-/*EATE FUNCTION Main() RETURNS BOOLE*/
-	BEGIN
-		SET OutputLocalEnvironment = InputLocalEnvironment;
-		SET Environment.nci.soap.service.nombre = InputRoot.SOAP.Context.service;
-		SET Environment.nci.soap.service.operacion = InputRoot.SOAP.Context.operation;
-		RETURN TRUE;
-	END;
